@@ -26,6 +26,3 @@ What you need
 - [Django framework](https://www.djangoproject.com/)
 - [Python](http://www.python.org/)
 - [SQLite3 DBMS](http://www.sqlite.org/)
-
-Navigate into diagoras project folder and run<br />
-<code>$python manage.py runserver 127.0.0.1:8000</code>
