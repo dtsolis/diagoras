@@ -4,5 +4,3 @@
 *.pot
 *.pyc
 *.*~
-Thumbs.db
-local_settings.py
