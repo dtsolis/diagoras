@@ -1,0 +1,10 @@
+table td {
+	padding: 5px 5px 5px 5px;
+	border: solid 1px #525252;
+	vertical-align: top;
+}
+
+.title {
+	background-color: #525252;
+	color: #ffffff;
+}

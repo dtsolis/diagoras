@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" >
+	<head>
+		<link rel="stylesheet" type="text/css" title="Style" href="/media/css/rssView.css" />
+		<title>- Diagoras -</title>
+	</head>
+	<body>
+	{% load i18n %}
+		<table>
+			<tr><td class="title">{% trans "Κωδικός" %}</td><td>{{ course.0.idcourses }}</td></tr>
+			<tr><td class="title">{% trans "Τίτλος" %}</td><td>{{ course.0.title1 }}</td></tr>
+			<tr><td class="title">{% trans "Χαρακτηρισμός" %}</td><td>{{ course.0.status }}</td></tr>
+			<tr><td class="title">{% trans "Ω/Εβδ" %}</td><td>{{ course.0.theoryHours }}</td></tr>
+			<tr><td class="title">{% trans "ΔΜ" %}</td><td>{{ course.0.cdm }}</td></tr>
+			<tr><td class="title">{% trans "Εξάμηνο" %}</td><td>{{ course.0.semester }}</td></tr>
+			<tr><td class="title">{% trans "Στόχοι" %}</td><td>{{ course.0.goals|safe }}</td></tr>
+			<tr><td class="title">{% trans "Περιγραφή" %}</td><td>{{ course.0.description|safe }}</td></tr>
+			<tr><td class="title">{% trans "Βιβλιογραφία" %}</td><td>{{ course.0.bibliography|safe }}</td></tr>
+		</table>
+	</body>
+</html>

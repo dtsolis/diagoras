@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block more_js_top %}
+<script type="text/javascript" src="/media/js/dynamic-ajax-content.js"></script>
+{% endblock %}
+
+{% block title %}{% load i18n %}{% trans "Πρόγραμμα Σπουδών (Γρήγορη προβολή)" %} - {% endblock %}
+
+{% block alerts %}
+	{% if error %}
+		<p id="error">{{ error }}</p>
+	{% else %}{% if warning %}
+		<p id="warning">{{ warning }}</p>
+	{% else %}{% if okmessage %}
+		<p id="ok">{{ okmessage }}</p>
+	{% else %}{% if message %}
+		<p id="message">{{ message }}</p>
+	{% endif %}{% endif %}{% endif %}{% endif %}
+{% endblock %}
+
+
+{% block pageheader %}
+<h3 align="Center">{% trans "Προπτυχιακά Προγράμματα Σπουδών - Γρήγορη προβολή" %}</h3>
+{% endblock %}
+
+
+{% block content %}
+{% load diagoras_extras %}
+
+	{% if mode == "courses" %}
+		<div class="page-wrapper-big">
+			<p class="prog-list-msg" align="center">{% trans "Επιλέξτε κάποιο Μάθημα, στα αριστερά, για να δείτε περισσότερες λεπτομέρειες" %}</p>
+			<div id="quick-courses">
+				{% for i in progCourses %}
+					{% if tmp != i.semester and i.semester%}
+						<div class="quick-courses-title">
+							{% trans "Εξάμηνο" %} {{ i.semester }}
+						</div>
+						{% set tmp = i.semester %}
+					{% endif %}
+					
+					<a href="javascript:ajaxpage('/feeds/rss/{{ idprogList }}/{{ i.idcourses }}/html/', 'quick-courses-details');">
+						<div class="quick-courses-course">
+							{% if i.courseType == _("Απλό Μάθημα") %}
+								<img src="/media/img/course1.gif" /> 
+							{% else %}{% if i.courseType == _("Σύνθετο Μάθημα") %}
+								<img src="/media/img/course2.gif" />
+							{% else %}
+								<img src="/media/img/course3.gif" />
+							{% endif %}{% endif %}
+							{{ i.title1 }} [{{ i.idcourses }}]<br />
+							<span>{% trans "Χαρακτηρισμός" %}: {{ i.status }} // {% trans "Τύπος" %}: {{ i.selectionType }} // {% trans "ΔΜ" %}: {{ i.cdm }}<br />
+								{% trans "Θεωρία" %}: {{ i.theoryHours }} // {% trans "Φροντηστήριο" %}: {{ i.tutHours }} // {% trans "Εργαστήριο" %}: {{ i.labHours }} 
+								</span>
+						</div>
+					</a>
+				{% endfor %}
+			</div>
+			
+			<div id="quick-courses-details"><br /><br /><br /><br /><br /><p class="prog-list-msg">... {% trans "Χώρος για τις λεπτομέρειες των μαθημάτων" %} ...</p></div>
+		</div>
+	{% else %}
+	<!-- EMFANISI TOY PROGRAMMATOS SPOYDWN ANA TMHMA -->
+		<div class="page-wrapper">
+			<p class="prog-list-msg">{% trans "Επιλέξτε κάποιο Πρόγραμμα Σπουδών" %}</p>
+			
+			{% for i in progList %}
+				{% if tmp != i.depTitle %}
+					<p class="prog-dep-quick">{{ i.depTitle }}</p>
+					{% set tmp = i.depTitle %}
+				{% endif %}
+				<p class="prog"><a href="/programma/quick-view/{{ i.idprogList }}">{{ i.progTitle }}</a><span ><a class="tooltip" title="{% trans "Τα μαθήματα του" %} '{{ i.progTitle }}' - RSS Feeds" id="prog-rss" href="/feeds/rss/{{ i.idprogList }}/"><img style="vertical-align: -1px;" src="/media/img/rss-16.png" /></a></span></p>
+			{% endfor %}
+		</div>
+	{% endif %}
+	
+{% endblock content %}

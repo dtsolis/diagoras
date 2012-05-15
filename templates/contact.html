@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}{% load i18n %}{% trans "Επικοινωνία" %} - {% endblock %}
+
+{% block alerts %}
+	{% if error %}
+		<p id="error">{{ error }}</p>
+	{% else %}{% if warning %}
+		<p id="warning">{{ warning }}</p>
+	{% else %}{% if okmessage %}
+		<p id="ok">{{ okmessage }}</p>
+	{% else %}{% if message %}
+		<p id="message">{{ message }}</p>
+	{% endif %}{% endif %}{% endif %}{% endif %}
+{% endblock %}
+
+
+{% block pageheader %}
+<h3 align="Center">{% trans "Επικοινωνία" %}</h3>
+{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+	<p class="prog-list-msg">{% trans "Συμπληρώστε τα πεδία με" %} *</p>
+	
+	
+	<table class="contact-table">
+		<form name="contact-form" method="POST" action="/contact/send/">
+			{% csrf_token %}
+			<tr>
+				<td><label for="name">{% trans "Όνομα" %} *</label></td><td><input type="text" name="name" size="51" /></td>
+			</tr>
+			<tr>
+				<td><label for="email">E-mail</label></td><td><input type="text" name="email" size="51" /></td>
+			</tr>
+			<tr>
+				<td><label for="subject">{% trans "Θέμα" %} *</label></td><td><input type="text" name="subject" size="51" /></td>
+			</tr>
+			<tr>
+				<td><label for="msg">{% trans "Μήνυμα" %} *</label></td><td><textarea name="msg" cols="50" rows="10" ></textarea></td>
+			</tr>
+			<tr>
+				<td></td><td align="right"><input name="submit" type="submit" value="{% trans "Αποστολή" %}" /></td>
+			</tr>
+		</form>
+	</table>
+</div>
+{% endblock %}

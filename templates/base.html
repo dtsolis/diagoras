@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" >
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="keywords" content="teilar, diagoras" />
+		<meta name="description" content="school program implementation!" />
+		<meta name="author" content="Tsolis Dimitris - Sotiris" />
+		<meta name="robots" content="all" />
+		
+		<link href="/media/img/logo-16.png" rel="shortcut icon" type="image/x-icon">
+		<link rel="stylesheet" type="text/css" title="Style" href="/media/css/style.css" />
+		<link rel="stylesheet" type="text/css" href="/media/css/tipTip.css" />
+		{% block more_css %}{% endblock %}
+		<!--[if IE 7]>
+			<link rel="stylesheet" media="screen" type="text/css" title="Style" href="/media/css/ie7.css" />
+		<![endif]-->
+		
+		<script type="text/javascript" src="/media/js/jquery-1.6.4.min.js"></script>
+		<script type="text/javascript" src="/media/js/jquery.tipTip.minified.js"></script>
+		<script type="text/javascript" src="/media/jqueryDataTable/media/js/jquery.dataTables.js"></script>
+		
+		<script type="text/javascript">
+			$(function(){
+				$(".tooltip").tipTip();
+			});
+			
+			function submitLink(theForm, theName, theValue) {
+				theForm[ theName ].value = theValue ;
+				theForm.submit();
+			}
+		</script>
+		
+		{% block more_js_top %}{% endblock %}
+		
+		<title>{% block title %}{% endblock %}Diagoras</title>
+	</head>
+	<body>
+		{% load i18n %}
+		<!-- SET LANGUAGE FORM -->
+		<form name="language_form" action="/i18n/setlang/" method="post">
+		{% csrf_token %}
+			<input name="next" type="hidden" value="{{ request.path }}" />
+			<input name="language" type="hidden" value="{{ request.path }}" />
+		</form>
+		
+		<!-- STATUS BAR -->
+		<div id="status-bar">
+			<div id="status-bar-content">
+					<p id="welcome">{% trans "Welcome" %},
+						{% if user.is_authenticated%}
+							<a class="tooltip" href="/users/profile/" title="View User Profile">{{ user.username }}</a>
+						{% else %}
+							{% trans "Guest" %}
+						{% endif %}
+						</p>
+					<div id="left-side-bar"></div>
+					<div id="action-bar">
+						<ul id="action-bar-list">
+							{% if not user.is_authenticated %}
+								<li><a class="tooltip" href="/login/?next={{ request.path }}" title="{% trans "Σύνδεση χρήστη" %}"">{% trans "Login" %}</a></li>								
+							{% else %}
+								<li><a class="tooltip" href="/users/secry/" title="{% trans "Πρόγραμμα Γραμματείας" %}">{% trans "Secretary Program" %}</a></li><li>|</li>
+								<li><a class="tooltip" href="/users/manage/" title="{% trans "Διαχείριση της σελίδας" %}">{% trans "Management" %}</a></li><li>|</li>
+								<li><a class="tooltip" href="/users/messages/" title="{% trans "Προβολή μηνυμάτων που άφησαν οι επισκέπτες" %}">{% trans "Messages" %} ({{ unreadMessages }})</a></li><li>|</li>
+								<li><a class="tooltip" href="/logout/?next={{ request.path }}" title="{% trans "Αποσύνδεση χρήστη" %}">{% trans "Logout" %}</a>
+							{% endif %}
+						</ul>
+					</div>
+					<div id="right-side-bar"></div>					
+					<div id="action-lang">
+						<ul id="action-lang-list">
+							<li><a class="tooltip" href="#" onclick="submitLink(document.forms[0], 'language', 'el_GR');" title="Προβολή στα Ελληνικά"><img src="/media/img/gr.png" alt="Greek Language"></a></li>
+							<li><a class="tooltip" href="#" onclick="submitLink(document.forms[0], 'language', 'en_US');" title="View in English"><img src="/media/img/en.png" alt="English Language"></a></li>
+						</ul>
+					</div>
+				
+			</div>
+		</div>
+		<!-- HEADER -->
+		<div id="header">
+			<div id="logo">
+				<h1><a class="tooltip" href="/" title="{% trans "Αρχική σελίδα" %}">{% trans "Diagoras" %}</a></h1>
+				<h2>{% trans "Service" %}</h2>
+			</div>
+		</div>
+		<!-- CONTENT -->
+		<div id="content-top-shadow"></div>
+		<div id="alerts">
+			{% block alerts %}{% endblock %}
+		</div>
+		<div id="content">
+			{% block pageheader %}{% endblock %}
+			{% block eyebrow %}{% endblock %}
+			{% block content %}{% endblock %}
+		</div>
+		{% block more_js_bottom %}{% endblock %}
+		<div id="content-bottom-shadow"></div>
+		<!-- FOOTER -->
+		<div id="footer">
+			<div id="footer-image">
+				<div id="footer-list">
+					<ul>
+						<li><a class="tooltip" href="/" title="{% trans "Επιστροφή στην αρχική σελίδα" %}">{% trans "Home Page" %}</a></li><li>|</li>
+						<li><a class="tooltip" href="/programma/" title="{% trans "Προβολή της λίστας με τα Προγράμματα Σπουδών" %}">{% trans "Curriculum" %}</a></li><li>|</li>
+						<li><a class="tooltip" href="/extraLinks/" title="{% trans "Σύνδεσμοι για άλλες χρήσιμες σελίδες" %}">{% trans "Useful Links" %}</a></li><li>|</li>
+						<li><a class="tooltip" href="/contact/" title="{% trans "Επικοινωνίστε μαζί μας" %}">{% trans "Contact Us" %}</a></li>
+					</ul>
+					<ul id="rss">
+						<li><a class="tooltip" href="/programma/quick-view" title="{% trans "Πιο γρήγορη και πιο άμμεση προβολή του Προγράμματος Σπουδών" %}">{% trans "Quick View" %}</a></li>
+					</ul>
+				</div>
+			</div>
+			<p id="footer-text">
+				Copyright &copy; 2011 Diagoras
+			</p>
+		</div>
+	</body>
+</html>

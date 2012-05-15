@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+
+{% block title %}{% load i18n %}{% trans "Πρόγραμμα Σπουδών" %} - {% endblock %}
+
+{% block alerts %}
+	{% if error %}
+		<p id="error">{{ error }}</p>
+	{% else %}{% if warning %}
+		<p id="warning">{{ warning }}</p>
+	{% else %}{% if okmessage %}
+		<p id="ok">{{ okmessage }}</p>
+	{% else %}{% if message %}
+		<p id="message">{{ message }}</p>
+	{% endif %}{% endif %}{% endif %}{% endif %}
+{% endblock %}
+
+
+{% block pageheader %}
+<h3 align="Center">{% trans "Προπτυχιακά Προγράμματα Σπουδών" %}</h3>
+{% endblock %}
+
+
+
+{% block eyebrow %}
+<div id="eyebrow">
+	<ul>
+		<li><a href="/">{% trans "Αρχική σελίδα" %}</a></li>
+		{% if details == "prog" %}
+			<li><a href="/programma/">{% trans "Προγράμματα Σπουδών" %}</a></li>
+			<li>{{ progInfo.0.progTitle }}</li>
+			
+		{% else %}{% if details == "course" %}
+			<li><a href="/programma/">{% trans "Προγράμματα Σπουδών" %}</a></li>
+			<li><a href="/programma/{{ prev }}">{{ progListName }}</a></li>
+			<li>{{ courseDetails.0.title1 }}</li>
+			
+		{% else %}
+			<li>{% trans "Προγράμματα Σπουδών" %}</li>
+		{% endif %}{% endif %}
+	</ul>
+</div>
+{% endblock %}
+
+
+
+
+{% block content %}
+
+{% load diagoras_extras %}
+<div class="page-wrapper">
+	{% if details == "prog" %}
+<!-- EMFANISI TWN MA8HMATWN GIA TO PROGRAMMA SPOYDWN -->
+		<p class="prog-list-msg">{% trans "Επιλέξτε κάποιο Μάθημα για να δείτε περισσότερες λεπτομέρειες" %}</p>
+		
+		<div id="prog-wrapper">
+			<p class="prog-wrapper-p">({{ progInfo.0.idprogList }}) {{ progInfo.0.progTitle }}</p>
+			<table class="wrap-table">
+				<tr>
+					<td class="td1">{% trans "Τμήμα" %}</td>
+					<td>{{ progInfo.0.depTitle }}</td>
+				</tr>
+				<tr>
+					<td class="td1">{% trans "Σχολή" %}</td>
+					<td>{{ progInfo.0.title }}</td>
+				</tr>
+				<tr>
+					<td class="td1">{% trans "Επίπεδο σπουδών" %}</td>
+					<td>{{ progInfo.0.studyLevel }}</td>
+				</tr>
+				<tr>
+					<td class="td1">{% trans "Τίτλος Διπλώματος" %}</td>
+					<td>{{ progInfo.0.diplomaTitle }}</td>
+				</tr>
+				<tr>
+					<td class="td1">{% trans "Δίδακτρα" %}</td>
+					{% if progInfo.0.fee %}
+						<td>{% trans "ΝΑΙ" %}</td>
+					{% else %}
+						<td>{% trans "ΟΧΙ" %}</td>
+					{% endif %}
+				</tr>
+				<tr>
+					<td class="td1">{% trans "Εξάμηνα" %}</td>
+					<td>{{ progInfo.0.semestersNum }}</td>
+				</tr>
+			</table>
+		</div>
+		
+		
+		<table class="course-table">
+		{% set tmp = "0" %}
+		
+		{% for i in progCourses %}		
+		{% if i.courseType != _("Μέρος Σύνθετου Μαθήματος") %}
+			{% if tmp != i.semester and i.semester%}
+				<tr style="border: 0px;">	
+					<td colspan='5' style="padding:0px;"><p class="prog-dep">{% trans "Εξάμηνο" %} {{ i.semester }}</p></td>
+				</tr>
+				{% set tmp = i.semester %}
+			{% endif %}
+			<tr>
+				{% if i.courseType == _("Απλό Μάθημα") %}
+					<td class="icon-col"><img src="/media/img/course1.gif" /></td>
+				{% else %}{% if i.courseType == _("Σύνθετο Μάθημα") %}
+					<td class="icon-col"><img src="/media/img/course2.gif" /></td>
+				{% else %}
+					<td class="icon-col"><img src="/media/img/course3.gif" /></td>
+				{% endif %}{% endif %}
+				<td class="id-col">({{ i.idcourses }})</td>
+				<td class="title-col"><a href="/programma/{{ progInfo.0.idprogList }}/{{ i.idcourses }}">{{ i.title1 }}</a></td>
+				<td class="type-col">{{ i.selectionType }}</td>
+				<td class="dm-col">{{ i.cdm }}</td>
+			</tr>
+		{% endif %}
+		{% endfor %}
+		</table>
+		
+	{% else %}{% if details == "course" %}
+<!-- EMFANISI LEPTOMERIWN GIA TO MA8HMA -->
+		<p class="prog-list-msg">{% trans "Λεπτομέρειες για το μάθημα" %} "{{ courseDetails.0.title1 }}" </p>
+		
+		
+		<p class="course-details" align="center">
+			{% if courseDetails.0.courseType == _("Απλό Μάθημα") %}
+				<img src="/media/img/course1.gif" /> 
+			{% else %}{% if courseDetails.0.courseType == _("Σύνθετο Μάθημα") %}
+				<img src="/media/img/course2.gif" />
+			{% else %}
+				<img src="/media/img/course3.gif" />
+			{% endif %}{% endif %}
+			{{ courseDetails.0.title1 }}
+		</p>
+		
+		
+		
+		<table class="details-table">
+			<tr>
+				<td style="width:170px;">{% trans "Κωδικός" %}</td><td>-</td><td style="width: 552px;">{{ courseDetails.0.idcourses }}</td>
+			</tr>
+			<tr>
+				<td>{% trans "Τμήμα" %}</td><td>-</td><td>{{ courseDetails.0.depTitle }}</td>
+			</tr>
+			<tr>
+				<td>{% trans "Τίτλος" %}</td><td>-</td><td>{{ courseDetails.0.title1 }}</td>
+			</tr>
+			<tr>
+				<td>{% trans "Τύπος" %}</td><td>-</td><td>{{ type.0.selectionType }}</td>
+			</tr>
+			<tr>
+				<td>{% trans "Εξάμηνο" %}</td><td>-</td><td>{{ courseDetails.0.semester }}</td>
+			</tr>
+			<tr>
+				<td>{% trans "Διδακτικές Μονάδες" %}</td><td>-</td><td>{{ courseDetails.0.cdm }}</td>
+			</tr>
+			<tr>
+				<td>{% trans "Υπεύθυνος" %}</td><td>-</td><td><a href="mailto:{{ professor.0.email }}" class="tooltip" title="{% trans "Επικοινωνία μέσω E-mail" %}">{{ professor.0.title }} {{ professor.0.lastName }} {{ professor.0.name }}</a></td>
+			</tr>
+			<tr>
+				<td>{% trans "Γνωστικό αντικείμενο" %}</td><td>-</td><td>{{ courseDetails.0.cdm }}</td>
+			</tr>
+			<tr>
+				<td>{% trans "Περίοδος διδασκαλίας" %}</td><td>-</td><td>{{ courseDetails.0.teachPeriod }}</td>
+			</tr>
+			<tr>
+				<td>{% trans "Περιγραφή" %}</td><td>-</td><td>{{ courseDetails.0.description|safe }}</td>
+			</tr>
+		</table>
+		
+		{% if courseDetails.0.courseType == _("Σύνθετο Μάθημα") %}
+			<p>{% trans "Μέρη Μαθήματος" %}</p>
+			<ul>
+			{% for i in childrenCourse %}
+				<li>({{ i.idcourses }})<a href="/programma/{{ prev }}/{{ i.idcourses }}/" class="tooltip" title="{% trans "Κάνε κλικ για να μεταβείς στις πληροφορίες για το μάθημα" %} '{{ i.title1 }}'">{{ i.title1 }}</a></li>
+			{% endfor %}
+			</ul>
+		{% else %}{% if courseDetails.0.courseType == _("Μέρος Σύνθετου Μαθήματος") and parentCourse.0.idcourses %}
+			<p>{% trans "Γονέας Μαθήματος" %}</p>
+			<ul>
+				<li>({{ parentCourse.0.idcourses }})<a href="/programma/{{ prev }}/{{ parentCourse.0.idcourses }}/" class="tooltip" title="{% trans "Κάνε κλικ για να μεταβείς στις πληροφορίες για το μάθημα" %} '{{ parentCourse.0.title1 }}'">{{ parentCourse.0.title1 }}</a></li>
+			</ul>
+		{% endif %}	{% endif %}
+		
+	{% else %}
+<!-- EMFANISI TOY PROGRAMMATOS SPOYDWN ANA TMHMA -->
+		<p class="prog-list-msg">{% trans "Επιλέξτε κάποιο Πρόγραμμα Σπουδών" %}</p>
+		
+		{% for i in progList %}
+			{% if tmp != i.depTitle %}
+				<p class="prog-dep">{{ i.depTitle }}</p>
+				{% set tmp = i.depTitle %}
+			{% endif %}
+			<p class="prog"><a href="/programma/{{ i.idprogList }}">{{ i.progTitle }}</a><span ><a class="tooltip" title="{% trans "Τα μαθήματα του" %} '{{ i.progTitle }}' - RSS Feeds" id="prog-rss" href="/feeds/rss/{{ i.idprogList }}/"><img style="vertical-align: -1px;" src="/media/img/rss-16.png" /></a></span></p>
+		{% endfor %}
+	{% endif %}{% endif %}
+	
+</div>
+{% endblock content %}

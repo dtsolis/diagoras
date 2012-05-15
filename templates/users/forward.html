@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+
+{% block title %}{% load i18n %}{% trans "Προώθηση μηνυμάτων" %} - {% endblock %}
+
+{% block more_js_top %}
+	<script type='text/javascript'>
+		function submitLink(theForm, theName, theValue) {
+			theForm[ theName ].value = theValue;
+			theForm.submit();
+		}
+	</script>
+	
+	<SCRIPT TYPE="text/javascript">
+	<!--
+	// copyright 1999 Idocs, Inc. http://www.idocs.com
+	// Distribute this script freely but keep this notice in place
+	function numbersonly(myfield, e, dec)
+	{
+		var key;
+		var keychar;
+		
+		if (window.event)
+		   key = window.event.keyCode;
+		else if (e)
+		   key = e.which;
+		else
+		   return true;
+		keychar = String.fromCharCode(key);
+		
+		// control keys
+		if ((key==null) || (key==0) || (key==8) || 
+		    (key==9) || (key==13) || (key==27) )
+		   return true;
+		
+		// numbers
+		else if ((("0123456789").indexOf(keychar) > -1))
+		   return true;
+		
+		// decimal point jump
+		else if (dec && (keychar == "."))
+		   {
+		   myfield.form.elements[dec].focus();
+		   return false;
+		   }
+		else
+		   return false;
+	}
+	
+	//-->
+	</SCRIPT>
+{% endblock %}
+
+{% block alerts %}
+	{% if error %}
+		<p id="error">{{ error }}</p>
+	{% else %}{% if warning %}
+		<p id="warning">{{ warning }}</p>
+	{% else %}{% if okmessage %}
+		<p id="ok">{{ okmessage }}</p>
+	{% else %}{% if message %}
+		<p id="message">{{ message }}</p>
+	{% endif %}{% endif %}{% endif %}{% endif %}
+{% endblock %}
+
+
+{% block pageheader %}
+{% if state == "details" %}
+	<h3 align="Center">{% trans "Επεξεργασία προώθησης" %}</h3>
+{% else %}{% if state == "add" %}
+	<h3 align="Center">{% trans "Προσθήκη νέας προώθησης" %}</h3>
+{% else %}
+	<h3 align="Center">{% trans "Διαχείρηση προωθήσεων μηνυμάτων" %}</h3>
+{% endif %}{% endif %}
+{% endblock %}
+
+
+
+{% block content %}
+<div class="page-wrapper">
+	
+	
+	{% if state == "details" %}
+		<p class="prog-list-msg">{% trans "Επεξεργαστείτε τα στοιχεία της Προώθησης" %}</p>
+
+		<div class="message-details">
+			<table>
+				<form id="det" method="POST" action="/users/messages/forward/">
+					{% csrf_token %}
+					<tr><td width="150px;"><i>{% trans "Προώθηση Σε" %}:</i></td><td width="370"><input size="51" type="text" name="to" placeholder="{% trans "e-mail προώθησης" %}" value="{{ details.forwardTo }}" /></td></tr>
+					<tr><td><i>{% trans "Προώθηση Από" %}:</i></td><td><input size="51" type="text" name="from" placeholder="{% trans "e-mail αποστολέα" %}" value="{{ details.forwardFrom }}" /></a></td></tr>
+					<tr><td><i>{% trans "Κωδικός 'Από'" %}:</i></td><td><input class="showPass" size="51" type="password" name="password" placeholder="{% trans "Κωδικός e-mail αποστολέα" %}" value="{{ details.passwordFrom }}" /></td><td><input type="checkbox" id="showPass" />{% trans "Εμφάνηση" %}</td></tr>
+					<tr><td><i>smtp Server:</i></td><td><input size="51" type="text" name="server" placeholder="{% trans "π.χ." %} smtp.live.com" value="{{ details.smtpServer }}" /></td></tr>
+					<tr><td><i>smtp Port:</i></td><td><input size="51" type="text" name="port" placeholder="" value="{{ details.smtpPort }}" onKeyPress="return numbersonly(this, event)" /></td></tr>
+					<tr><td><i>{% trans "Προώθηση" %}:</i></td>
+						<td>
+							{% if details.enableForward %}
+								<input type="checkbox" name="checkbox" checked="yes" />
+							{% else %}
+								<input type="checkbox" name="checkbox" />
+							{% endif %}
+						</td></tr>
+						<input type="hidden" name="id" value="{{ details.idforward }}" />
+						<input type="hidden" name="state" value="update" />
+					<tr><td></td><td align="right"><input type="submit" value="{% trans "Αποθήκευση" %}" /></td></tr>
+				</form>
+			</table>
+		</div>
+	{% else %}{% if state == "add" %}
+		<p class="prog-list-msg">{% trans "Συμπληρώστε τα στοιχεία για την νέα Προώθηση" %}</p>
+		
+		<div class="message-details">
+			<table>
+				<form id="det" method="POST" action="/users/messages/forward/">
+					{% csrf_token %}
+					<tr><td width="150px;"><i>{% trans "Προώθηση Σε" %}:</i></td><td width="370"><input size="51" type="text" name="to" placeholder="{% trans "e-mail προώθησης" %}" value="" /></td></tr>
+					<tr><td><i>{% trans "Προώθηση Από" %}:</i></td><td><input size="51" type="text" name="from" placeholder="{% trans "e-mail αποστολέα" %}" value="" /></a></td></tr>
+					<tr><td><i>{% trans "Κωδικός 'Από'" %}:</i></td><td><input class="showPass" size="51" type="password" name="password" placeholder="{% trans "Κωδικός e-mail αποστολέα" %}" value="" /></td><td><input type="checkbox" id="showPass" />{% trans "Εμφάνηση" %}</td></tr>
+					<tr><td><i>smtp Server:</i></td><td><input size="51" type="text" name="server" placeholder="{% trans "π.χ." %} smtp.live.com" value="" /></td></tr>
+					<tr><td><i>smtp Port:</i></td><td><input size="51" type="text" name="port" placeholder="" value="" onKeyPress="return numbersonly(this, event)" /></td></tr>
+					<tr><td><i>{% trans "Προώθηση" %}:</i></td><td><input type="checkbox" name="checkbox" /></td></tr>
+					<input type="hidden" name="state" value="add" />
+					<tr><td></td><td align="right"><input type="submit" value="{% trans "Αποθήκευση" %}" /></td></tr>
+				</form>
+			</table>
+		</div>
+	{% else %}
+		<p class="prog-list-msg">{% trans "Οι εγγραφές της παρακάτω λίστας, θα δέχονται με e-mail ενημέρωση για νέα μηνύματα" %}</p>
+	
+		<div class="messages-list">
+			<form id="target" name="messagesform" method="POST" action="">
+				{% csrf_token %}
+				<ul align="right">
+					<li><a href="#" onclick="submitLink(document.forms[0], 'act', 'enable');" class="tooltip" title="{% trans "Ενεργοποιήστε την προώθηση στα επιλεγμένα στοιχεία της λίστας" %}">{% trans "Ενεργοποίηση" %}</a></li>
+					<li><a href="#" onclick="submitLink(document.forms[0], 'act', 'disable');" class="tooltip" title="{% trans "Απενεργοποιήστε την προώθηση στα επιλεγμένα στοιχεία της λίστας" %}">{% trans "Απενεργοποίηση" %}</a></li>
+					<li><a href="#" onclick="submitLink(document.forms[0], 'act', 'del');" class="tooltip" title="{% trans "Διέγραψε τις επιλεγμένες εγγραφές" %}">{% trans "Διαγραφή" %}</a></li>
+				</ul>
+				
+				<table>
+					<tr class="message-header">
+						<td style="width: 20px;"><input type="checkbox" id="selectAll" /></td><td style="width: 200px;">{% trans "Προώθηση Σε" %}</td><td style="width: 200px;">{% trans "Προώθηση Από" %}</td><td style="width: 135px;">smtp Server</td><td style="width: 80px;">smtp Port</td><td>{% trans "Ενεργή" %}</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					</tr>
+					{% for m in list %}
+						<tr>
+							<td><input type="checkbox" class="checked" name="checkbox" value="{{ m.idforward }}" /></td><td>{{ m.forwardTo }}</td><td>{{ m.forwardFrom }}</td><td>{{ m.smtpServer }}</td><td>{{ m.smtpPort }}</td><td>{{ m.enableForward }}</td><td><a href="/users/messages/forward/edit/{{ m.idforward }}" class="tooltip" title="{% trans "Επεξεργασία των στοιχείων της εγγραφής" %}"><img src="/media/img/edit-16.png" /></a></td>
+						</tr>
+					{% endfor %}
+				</table>
+				
+				<input id="add-button" type="button" name="add" value="{% trans "Προσθήκη" %}" onclick="location.href='/users/messages/forward/add/'" />
+				<input type="hidden" name="act" value="" />
+			</form>
+		</div>
+	{% endif %}{% endif %}
+	
+</div>
+{% endblock content %}
+
+
+{% block more_js_bottom %}
+	<script language="javascript">
+		$("#selectAll").change(function() {
+			$("input.checked[type=checkbox]").attr('checked', this.checked);
+		});
+		
+		$("#showPass").change(function() {
+			if (this.checked)
+			{
+				$("input.showPass[type='password']").each(function(){
+				  var name = $(this).attr('name'); // grab name of original
+				  var value = $(this).attr('value'); // grab value of original
+				  /* create new visible input */
+				  var html = '<input class="showPass" type="text" size="51" placeholder="{% trans "Κωδικός e-mail αποστολέα" %}" name="'+name+'" value="'+value+'" />';
+				  $(this).after(html).remove(); // add new, then remove original input
+				  /* add the new parameter on submit */
+				  $('#det').append($(html));
+				});
+			}
+			else
+			{
+				$("input.showPass[type='text']").each(function(){
+				  var name = $(this).attr('name'); // grab name of original
+				  var value = $(this).attr('value'); // grab value of original
+				  /* create new visible input */
+				  var html = '<input class="showPass" type="password" size="51" placeholder="{% trans "Κωδικός e-mail αποστολέα" %}" name="'+name+'" value="'+value+'" />';
+				  $(this).after(html).remove(); // add new, then remove original input
+				  /* add the new parameter on submit */
+				  $('#det').append($(html));
+				});
+			}
+		});
+
+	</script>
+{% endblock %}

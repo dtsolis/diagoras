@@ -1,0 +1,645 @@
+{% extends "base.html" %}
+
+{% block title %}{% load i18n %}{% trans "Προσθήκη Δεδομένων" %} - {% endblock %}
+
+{% block more_css %}
+		<link rel="stylesheet" type="text/css" title="Style" href="/media/simpleModal/css/osx.css" />
+{% endblock %}
+
+{% block more_js_top %}
+	<script type="text/javascript" src="/media/simpleModal/js/jquery.simplemodal.js"></script>
+	<script type="text/javascript" src="/media/simpleModal/js/osx.js"></script>
+	
+	<script type='text/javascript'>
+		function submitLink(theForm, theName, theValue) {
+			theForm[ theName ].value = theValue;
+			theForm.submit();
+		}
+	</script>
+	
+	<SCRIPT TYPE="text/javascript">
+	<!--
+	// copyright 1999 Idocs, Inc. http://www.idocs.com
+	// Distribute this script freely but keep this notice in place
+	function numbersonly(myfield, e, dec)
+	{
+		var key;
+		var keychar;
+		
+		if (window.event)
+		   key = window.event.keyCode;
+		else if (e)
+		   key = e.which;
+		else
+		   return true;
+		keychar = String.fromCharCode(key);
+		
+		// control keys
+		if ((key==null) || (key==0) || (key==8) || 
+		    (key==9) || (key==13) || (key==27) )
+		   return true;
+		
+		// numbers
+		else if ((("0123456789").indexOf(keychar) > -1))
+		   return true;
+		
+		// decimal point jump
+		else if (dec && (keychar == "."))
+		   {
+		   myfield.form.elements[dec].focus();
+		   return false;
+		   }
+		else
+		   return false;
+	}
+	
+	function departmentChanged(value) {
+		$("#proglistOptions").load("/users/secry/dynamic/curriculumOption/"+ value +"/");
+	}
+	function curriculumChanged(value) {
+		$("#orientationOptions").load("/users/secry/dynamic/orientationOption/"+ value +"/");
+	}
+	function departmentChangedGetCourse(value) {
+		$("#courseOptions").load("/users/secry/dynamic/courseOption/"+ value +"/");
+	}
+	function orientationChangedGetParents(value) {
+		$("#courseOptions").load("/users/secry/dynamic/parentCourseOption/"+ value +"/");
+	}
+	function courseidAvailability() {
+		value = document.getElementById("courses_id").value;
+		$("#courseidStatus").load("/users/secry/dynamic/courseID_Availability/"+ value +"/");
+	}
+	function addAndRefreshCourseType() {
+		value = document.getElementById("courseType").value;
+		value = encodeURI(value);
+		$("#statusid").load("/users/secry/dynamic/addAndRefresh/?cstatus="+value);
+	}
+	function removeAndRefreshCourseType() {
+		value = document.getElementById("statusid").value;
+		value = encodeURI(value);
+		$("#statusid").load("/users/secry/dynamic/removeAndRefresh/?cstatus="+value);
+	}
+	
+	
+	$(document).bind("ready", function () {
+		departmentChanged(document.getElementById("departmentOptions").options[0].value);
+		
+		{% if addMode == "aClasses" or addMode == "aExams" or addMode == "aBibliography" %}
+			departmentChangedGetCourse(document.getElementById("departmentOptions").options[0].value);
+		{% endif %}
+		
+		curriculumChanged(document.getElementById("proglistOptions").options[0].value);
+		
+	});
+	
+	//-->
+	</SCRIPT>
+{% endblock %}
+
+{% block alerts %}
+	{% if error %}
+		<p id="error">{{ error }}</p>
+	{% else %}{% if warning %}
+		<p id="warning">{{ warning }}</p>
+	{% else %}{% if okmessage %}
+		<p id="ok">{{ okmessage }}</p>
+	{% else %}{% if message %}
+		<p id="message">{{ message }}</p>
+	{% endif %}{% endif %}{% endif %}{% endif %}
+{% endblock %}
+
+
+{% block pageheader %}
+	{% if addMode == "aSchool" %}
+		<h3 align="Center">{% trans "Προσθήκη νέας Σχολής" %}</h3>
+	{% else %}{% if addMode == "aDepartment" %}
+		<h3 align="Center">{% trans "Προσθήκη νέου Τμήματος" %}</h3>
+	{% else %}{% if addMode == "aOrientation" %}
+		<h3 align="Center">{% trans "Προσθήκη νέας Κατεύθυνσης" %}</h3>
+	{% else %}{% if addMode == "aProglist" %}
+		{% if performEdit %}
+			<h3 align="Center">{% trans "Επεξεργασία Προγράμματος Σπουδών" %}</h3>
+		{% else %}
+			<h3 align="Center">{% trans "Προσθήκη νέου Προγράμματος Σπουδών" %}</h3>
+		{% endif %}
+	{% else %}{% if addMode == "aCourses" %}
+		<h3 align="Center">{% trans "Προσθήκη νέου Μαθήματος" %}</h3>
+	{% else %}{% if addMode == "aBibliography" %}
+		<h3 align="Center">{% trans "Προσθήκη νέου Βιβλίου σε Βιβλιογραφία" %}</h3>
+	{% else %}{% if addMode == "aProfessor" %}
+		<h3 align="Center">{% trans "Προσθήκη νέου Καθηγητή" %}</h3>
+	{% else %}{% if addMode == "aClasses" %}
+		<h3 align="Center">{% trans "Προσθήκη νέας Τάξης" %}</h3>
+	{% else %}{% if addMode == "aExams" %}
+		<h3 align="Center">{% trans "Προσθήκη νέας Εξεταστικής Περιόδου" %}</h3>
+	{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}
+{% endblock %}
+
+
+{% block content %}
+<div class="page-wrapper">
+	<p class="prog-list-msg">{% trans "Συμπλρώστε τα στοιχεία παρακάτω" %}</p>
+	<p class="prog-list-msg">{% trans "Παρακαλώ, να συμπληρώσετε τα πεδία για όλες τις γλώσσες" %}</p><br />
+	
+{% if performEdit %}
+	<form id="secryDataForm" method="POST" action="/users/secry/perform/update/">
+{% else %}
+	<form id="secryDataForm" method="POST" action="/users/secry/perform/add/">
+{% endif %}
+	{% csrf_token %}
+	<table>
+
+		{% if addMode == "aSchool" %}
+<!-- ADD SCHOOL -->
+			<tr><td colspan="2" align="center"><strong>Ελληνικά</strong></td></tr>
+			<tr><td width="150px;"><i>Τίτλος</i></td><td width="370"><input size="51" type="text" name="title_gr" placeholder="Τίτλος" /></td></tr>
+			<tr><td height="30px"></td></tr>
+			<tr><td colspan="2" align="center"><strong>English</strong></td></tr>
+			<tr><td width="150px;"><i>Title</i></td><td width="370"><input size="51" type="text" name="title_en" placeholder="Title" /></td></tr>
+
+		{% else %}{% if addMode == "aDepartment" %}
+<!-- ADD DEPARTMENT -->
+			<tr><td width="150px;"><i>E-mail</i></td><td width="370"><input size="51" type="text" name="email" placeholder="Email" /></td></tr>
+			<tr><td width="150px;"><i>Website</i></td><td width="370"><input size="51" type="text" name="website" placeholder="Website" /></td></tr>
+			<tr><td width="150px;"><i>Σχολή</i></td>
+				</td><td width="370">
+					<select name="school_id">
+						{% for i in schools %}
+							<option value="{{ i.school_id }}">{{ i.title }}</option>
+						{% endfor %}
+					</select>
+				</td></tr>
+			
+			<tr><td height="30px"></td></tr>
+			<tr><td colspan="2" align="center"><strong>Ελληνικά</strong></td></tr>
+			<tr><td width="150px;"><i>Τίτλος</i></td><td width="370"><input size="51" type="text" name="title_gr" placeholder="Τίτλος" /></td></tr>
+			<tr><td width="150px;"><i>Director</i></td><td width="370"><input size="51" type="text" name="director_gr" placeholder="Director" /></td></tr>
+			<tr><td width="150px;"><i>Επίπεδο σπουδών</i>
+				</td><td width="370">
+					<select name="studyLevel_gr">
+						<option value="Προπτυχιακό">Προπτυχιακό</option>
+					</select>
+				</td></tr>
+			
+			<tr><td height="30px"></td></tr>
+			<tr><td colspan="2" align="center"><strong>English</strong></td></tr>
+			<tr><td width="150px;"><i>Title</i></td><td width="370"><input size="51" type="text" name="title_en" placeholder="Title" /></td></tr>
+			<tr><td width="150px;"><i>Director</i></td><td width="370"><input size="51" type="text" name="director_en" placeholder="Director" /></td></tr>
+			<tr><td width="150px;"><i>Study Level</i>
+				</td><td width="370">
+					<select name="studyLevel_en">
+						<option value="Undergraduate">Undergraduate</option>
+					</select>
+				</td></tr>
+			
+		{% else %}{% if addMode == "aProglist" %}
+<!-- ADD PROGLIST -->
+			{% if performEdit %}
+				<input type="hidden" name="curriculmID" value="{{ currInfo.0.idprogList }}" />
+			{% endif %}
+			<tr><td width="150px;"><i>Ενεργό</i></td>
+				{% if performEdit and currInfo.0.active %}
+					<td width="370"><input type="checkbox" name="active" checked />
+				{% else %}
+					<td width="370"><input type="checkbox" name="active" />
+				{% endif %}
+				</td></tr>
+			<tr><td width="150px;"><i>Δίδακτρα</i></td><td width="370">
+				{% if performEdit and currInfo.0.fee %}
+					<input type="checkbox" name="fee" checked />
+				{% else %}
+					<input type="checkbox" name="fee" />
+				{% endif %}
+				</td></tr>
+			<tr><td width="150px;"><i>Αριθμός εξαμήνων</i></td><td width="370">
+				{% if performEdit %}
+					<input size="51" type="text" name="semesters" value="{{ currInfo.0.semestersNum }}" placeholder="Αριθμός εξαμήνων" onKeyPress="return numbersonly(this, event)" />
+				{% else %}
+					<input size="51" type="text" name="semesters" placeholder="Αριθμός εξαμήνων" onKeyPress="return numbersonly(this, event)" />
+				{% endif %}
+				</td></tr>
+			<tr><td width="150px;"><i>Τμήμα</i></td>
+				</td><td width="370">
+					<select name="department_id">
+						{% for i in departments %}
+							{% if performEdit %}
+								{% if i.department_id =	 currInfo.0.department_id %}
+									<option selected="selected" value="{{ i.department_id }}">{{ i.depTitle }}</option>
+								{% else %}
+									<option value="{{ i.department_id }}">{{ i.depTitle }}</option>
+								{% endif %}
+							{% else %}
+								<option value="{{ i.department_id }}">{{ i.depTitle }}</option>
+							{% endif %}
+						{% endfor %}
+					</select>
+				</td></tr>
+			
+			<tr><td height="30px"></td></tr>
+			<tr><td colspan="2" align="center"><strong>Ελληνικά</strong></td></tr>
+			<tr><td width="150px;"><i>Τίτλος</i></td><td width="370">
+				{% if performEdit %}
+					<input size="51" type="text" name="title_gr" placeholder="Τίτλος" value="{{ currInfo.0.progTitle }}" />
+				{% else %}
+					<input size="51" type="text" name="title_gr" placeholder="Τίτλος" />
+				{% endif %}
+				</td></tr>
+			<tr><td width="150px;"><i>Τίτλος διπλώματος</i></td><td width="370">
+				{% if performEdit %}
+					<input size="51" type="text" name="diplomaTitle_gr" placeholder="Τίτλος διπλώματος" value="{{ currInfo.0.diplomaTitle }}" />
+				{% else %}
+					<input size="51" type="text" name="diplomaTitle_gr" placeholder="Τίτλος διπλώματος" />
+				{% endif %}
+				</td></tr>
+			<tr><td width="150px;"><i>Επίπεδο σπουδών</i>
+				</td><td width="370">
+					<select name="studyLevel_gr">
+						<option value="Προπτυχιακό">Προπτυχιακό</option>
+					</select>
+				</td></tr>
+			
+			<tr><td height="30px"></td></tr>
+			<tr><td colspan="2" align="center"><strong>English</strong></td></tr>
+			<tr><td width="150px;"><i>Title</i></td><td width="370">
+				{% if performEdit %}
+					<input size="51" type="text" name="title_en" placeholder="Τίτλος" value="{{ currInfo.1.progTitle }}" />
+				{% else %}
+					<input size="51" type="text" name="title_en" placeholder="Τίτλος" />
+				{% endif %}
+				</td></tr>
+			<tr><td width="150px;"><i>Diploma title</i></td><td width="370">
+				{% if performEdit %}
+					<input size="51" type="text" name="diplomaTitle_en" placeholder="Diploma title" value="{{ currInfo.1.diplomaTitle }}" />
+				{% else %}
+					<input size="51" type="text" name="diplomaTitle_en" placeholder="Diploma title" />
+				{% endif %}
+				</td></tr>
+			<tr><td width="150px;"><i>Study Level</i>
+				</td><td width="370">
+					<select name="studyLevel_en">
+						<option value="Undergraduate">Undergraduate</option>
+					</select>
+				</td></tr>
+				
+		{% else %}{% if addMode == "aOrientation" %}
+<!-- ADD ORIENTATION -->
+			<tr><td width="150px;"><i>Ενεργό</i></td><td width="370"><input type="checkbox" name="active" /></td></tr>
+			<tr><td width="200px;"><i>Εμφάνηση στο Δίπλωμα</i></td><td width="370"><input type="checkbox" name="diplomaOrient" /></td></tr>
+			<tr><td width="150px;"><i>Τμήμα</i></td>
+				</td><td width="370">
+					<select id="departmentOptions" name="department_id" onchange="departmentChanged(this.options[this.selectedIndex].value)">
+						{% for i in departments %}
+							<option value="{{ i.department_id }}">{{ i.depTitle }}</option>
+						{% endfor %}
+					</select>
+				</td></tr>
+			<tr><td width="150px;"><i>Πρόγραμμα Σπουδών</i></td>
+				</td><td width="370">
+					<select id="proglistOptions" name="proglist_id">
+					</select>
+				</td></tr>
+				
+			<tr><td height="30px"></td></tr>
+			<tr><td colspan="2" align="center"><strong>Ελληνικά</strong></td></tr>
+			<tr><td width="150px;"><i>Τίτλος</i></td><td width="370"><input size="51" type="text" name="title_gr" placeholder="Τίτλος" /></td></tr>
+			
+			<tr><td height="30px"></td></tr>
+			<tr><td colspan="2" align="center"><strong>English</strong></td></tr>
+			<tr><td width="150px;"><i>Title</i></td><td width="370"><input size="51" type="text" name="title_en" placeholder="Title" /></td></tr>
+			
+		{% else %}{% if addMode == "aCourses" %}
+<!-- ADD COURSES -->
+			<tr><td width="220px;"><i>Ενεργό</i></td><td width="370"><input type="checkbox" name="active" /></td></tr>
+			<tr><td width="220px;"><i>Διδάσκεται</i></td></td><td width="370"><input type="checkbox" name="didasketai" /></td></tr>
+			<tr><td width="220px;"><i>Υποτροφίες</i></td><td width="370"><input type="checkbox" name="scolarships" /></td></tr>
+			<tr><td height="30px"></td></tr>
+			<tr><td width="220px;"><i>Κωδικός</i></td><td width="370"><input size="51" type="text" name="idcourses" placeholder="Κωδικός" id="courses_id" onblur="courseidAvailability()" /></td><td id="courseidStatus"></td></tr>
+			<tr><td width="220px;"><i>Κλίμακα βαθμού</i></td><td width="370"><input size="51" type="text" name="gradeScale" placeholder="Κλίμακα βαθμού" /></td></tr>
+			<tr><td width="220px;"><i>Εξάμηνο</i></td><td width="370"><input size="51" type="text" name="semester" placeholder="Εξάμηνο" onKeyPress="return numbersonly(this, event)" /></td></tr>
+			<tr><td width="220px;"><i>Ώρες διδασκαλίας</i></td><td width="370"><input size="51" type="text" name="teachHours" placeholder="Ώρες διδασκαλίας" /></td></tr>
+			<tr><td width="220px;"><i>Διδακτικές μονάδες</i></td><td width="370"><input size="51" type="text" name="cdm" placeholder="Διδακτικές μονάδες" /></td></tr>
+			<tr><td width="220px;"><i>ECTS</i></td><td width="370"><input size="51" type="text" name="ects" placeholder="ECTS" /></td></tr>
+			<tr><td width="220px;"><i>Υπεύθυνος καθηγητής</i></td>
+				</td><td width="370">
+					<select name="professors_id">
+						{% for i in professors %}
+							<option value="{{ i.Professors_id }}">{{ i.lastName }} {{ i.name }}</option>
+						{% endfor %}
+					</select>
+				</td></tr>
+			<tr><td height="30px"></td></tr>
+			<tr><td width="220px;"><i>Αντικαταστάθηκε από</i></td><td width="370"><input size="51" type="text" name="replacedBy_id" placeholder="Αντικαταστάθηκε από" /></td></tr>
+			<tr><td width="220px;"><i>Ισχύει από </i></td><td width="370"><input size="51" type="text" name="validationPeriod" placeholder="Ισχύει από" /></td></tr>
+			<tr><td width="220px;"><i>Τμήμα</i></td>
+				</td><td width="370">
+					<select id="departmentOptions" name="department_id" onchange="departmentChanged(this.options[this.selectedIndex].value)">
+						{% for i in departments %}
+							<option value="{{ i.department_id }}">{{ i.depTitle }}</option>
+						{% endfor %}
+					</select>
+				</td></tr>
+			<tr><td width="220px;"><i>Πρόγραμμα Σπουδών</i></td>
+				</td><td width="370">
+					<select id="proglistOptions" name="proglist_id" onchange="curriculumChanged(this.options[this.selectedIndex].value)">
+					</select>
+				</td></tr>
+			<tr><td width="220px;"><i>Κατεύθυνση</i></td>
+				</td><td width="370">
+					<select id="orientationOptions" name="orientcourses_id" onchange="orientationChangedGetParents(this.options[this.selectedIndex].value)">
+					</select>
+				</td></tr>
+			<tr><td width="220px;"><i>Μάθημα 'γονέας'</i></td>
+				</td><td width="370">
+					<select id="courseOptions" name="parentCourse_id" >
+					</select>
+				</td></tr>
+			<tr><td height="30px"></td></tr>
+			<tr><td width="220px;"><i>Τύπος</i>
+				</td><td width="370">
+					<select id="statusid" name="status_id">
+						{% for i in statuslist %}
+							<option value="{{ i.id }}">{{ i.status }}</option>
+						{% endfor %}
+					</select>&nbsp;
+					<input type='button' name='osx' value='Προσθήκη' class='osx' />
+					<input type='button' name='osx_delete' value='Διαγραφή' class='osx_delete'/>
+				</td></tr>
+			
+			<tr><td height="30px"></td></tr>
+			<tr><td colspan="2" align="center"><strong>Ελληνικά</strong></td></tr>
+			<tr><td width="220px;"><i>Τύπος</i></td>
+				</td><td width="370">
+					<select name="courseType_gr">
+						<option value="Απλό Μάθημα">Απλό μάθημα</option>
+						<option value="Σύνθετο Μάθημα">Σύνθετο μάθημα</option>
+						<option value="Μέρος σύνθετου μαθήματος">Μέρος σύνθετου μαθήματος</option>
+					</select>
+				</td></tr>
+			<tr><td width="220px;"><i>Τίτλος 1</i></td><td width="370"><input size="51" type="text" name="title1_gr" placeholder="Τίτλος 1" /></td></tr>
+			<tr><td width="220px;"><i>Τίτλος 2</i></td><td width="370"><input size="51" type="text" name="title2_gr" placeholder="Τίτλος 2" /></td></tr>
+			<tr><td width="220px;"><i>Γνωστικό αντικείμενο</i></td><td width="370"><input size="51" type="text" name="knownObject_gr" placeholder="Γνωστικό αντικείμενο" /></td></tr>
+			<tr><td width="220px;"><i>Περιγραφή</i></td><td width="370"><input size="51" type="text" name="description_gr" placeholder="Περιγραφή" /></td></tr>
+			<tr><td width="220px;"><i>Στόχοι</i></td><td width="370"><input size="51" type="text" name="goals_gr" placeholder="Στόχοι" /></td></tr>
+			<tr><td width="220px;"><i>Περίοδος διδασκαλίας</i>
+				</td><td width="370">
+					<select name="teachPeriod_gr">
+						<option value="ΟΛΕΣ">ΟΛΕΣ</option>
+						<option value="ΧΕΙΜ">ΧΕΙΜ</option>
+						<option value="ΕΑΡ">ΕΑΡ</option>
+					</select>
+				</td></tr>
+			<tr><td width="220px;"><i>Τύπος επιλογής</i>
+				</td><td width="370">
+					<select name="selectionType_gr">
+						<option value="ΥΠΟΧΡΕΩΤΙΚΟ">ΥΠΟΧΡΕΩΤΙΚΟ</option>
+						<option value="ΥΠΟΧΡΕΩΤΙΚΟ ΚΑΤ' ΕΠΙΛΟΓΗΝ">ΥΠΟΧΡΕΩΤΙΚΟ ΚΑΤ' ΕΠΙΛΟΓΗΝ</option>
+						<option value="ΠΡΟΑΙΡΕΤΙΚΟ">ΠΡΟΑΙΡΕΤΙΚΟ</option>
+					</select>
+				</td></tr>
+				
+			<tr><td height="30px"></td></tr>
+			<tr><td colspan="2" align="center"><strong>English</strong></td></tr>
+			<tr><td width="220px;"><i>Type</i></td>
+				</td><td width="370">
+					<select name="courseType_en">
+						<option value="Simple course">Simple course</option>
+						<option value="Complex course">Complex course</option>
+						<option value="Complex course part">Complex course part</option>
+					</select>
+				</td></tr>
+			<tr><td width="220px;"><i>Title 1</i></td><td width="370"><input size="51" type="text" name="title1_en" placeholder="Title 1" /></td></tr>
+			<tr><td width="220px;"><i>Title 2</i></td><td width="370"><input size="51" type="text" name="title2_en" placeholder="Title 2" /></td></tr>
+			<tr><td width="220px;"><i>Known object</i></td><td width="370"><input size="51" type="text" name="knownObject_en" placeholder="Known object" /></td></tr>
+			<tr><td width="220px;"><i>Description</i></td><td width="370"><input size="51" type="text" name="description_en" placeholder="Description" /></td></tr>
+			<tr><td width="220px;"><i>Goals</i></td><td width="370"><input size="51" type="text" name="goals_en" placeholder="Goals" /></td></tr>
+			<tr><td width="220px;"><i>Teach period</i>
+				</td><td width="370">
+					<select name="teachPeriod_en">
+						<option value="ALL">ALL</option>
+						<option value="WINT">WINT</option>
+						<option value="SPRI">SPRI</option>
+					</select>
+				</td></tr>
+			<tr><td width="220px;"><i>Selection type</i>
+				</td><td width="370">
+					<select name="selectionType_en">
+						<option value="MANDATORY">MANDATORY</option>
+						<option value="COMPULSORY ELECTIVE">COMPULSORY ELECTIVE</option>
+						<option value="OPTIONAL">OPTIONAL</option>
+					</select>
+				</td></tr>
+			
+		{% else %}{% if addMode == "aBibliography" %}
+<!-- ADD BIBLIOGRAPHY -->
+			<tr><td width="150px;"><i>Συγγραφέας</i></td><td width="370"><input size="51" type="text" name="author" placeholder="Συγγραφέας" /></td></tr>
+			<tr><td width="150px;"><i>Τίτλος</i></td><td width="370"><input size="51" type="text" name="title" placeholder="Τίτλος" /></td></tr>
+			<tr><td width="150px;"><i>Εκδότης</i></td><td width="370"><input size="51" type="text" name="editor" placeholder="Εκδότης" /></td></tr>
+			<tr><td width="150px;"><i>Έτος έκδοσης</i></td><td width="370"><input size="51" type="text" name="pubYear" placeholder="Έτος έκδοσης" onKeyPress="return numbersonly(this, event)" /></td></tr>
+			<tr><td width="150px;"><i>Τμήμα</i></td>
+				</td><td width="370">
+					<select id="departmentOptions" name="department_id" onchange="departmentChangedGetCourse(this.options[this.selectedIndex].value)">
+						{% for i in departments %}
+							<option value="{{ i.department_id }}">{{ i.depTitle }}</option>
+						{% endfor %}
+					</select>
+				</td></tr>
+			<tr><td width="150px;"><i>Μάθημα</i></td>
+				</td><td width="370">
+					<select id="courseOptions" name="course_id">
+					</select>
+				</td></tr>
+				
+		{% else %}{% if addMode == "aProfessor" %}
+<!-- ADD PROFESSOR -->
+			<tr><td width="150px;"><i>Διδάσκει</i></td><td width="370"><input type="checkbox" name="teaches" /></td></tr>
+			<tr><td width="150px;"><i>Email</i></td><td width="370"><input size="51" type="text" name="email" placeholder="Email" /></td></tr>
+			<tr><td width="150px;"><i>Ημερομηνία πρόσληψης</i></td><td width="370"><input size="51" type="text" name="hireDate" placeholder="Ημερομηνία πρόσληψης" /></td></tr>
+			
+			<tr><td height="30px"></td></tr>
+			<tr><td colspan="2" align="center"><strong>Ελληνικά</strong></td></tr>
+			<tr><td width="150px;"><i>Τίτλος</i>
+				</td><td width="370">
+					<select name="title_gr">
+						<option value="Κος">Κος</option>
+						<option value="Κα">Κα</option>
+					</select>
+				</td></tr>
+				<tr><td width="150px;"><i>Φύλο</i>
+				</td><td width="370">
+					<select name="sex_gr">
+						<option value="Άρρεν">Άρρεν</option>
+						<option value="Θήλυ">Θήλυ</option>
+					</select>
+				</td></tr>
+			<tr><td width="150px;"><i>Επώνυμο</i></td><td width="370"><input size="51" type="text" name="lastname_gr" placeholder="Επώνυμο" /></td></tr>
+			<tr><td width="150px;"><i>Όνομα</i></td><td width="370"><input size="51" type="text" name="name_gr" placeholder="Όνομα" /></td></tr>
+			<tr><td width="150px;"><i>Πατρώνυμο</i></td><td width="370"><input size="51" type="text" name="fatherName_gr" placeholder="Πατρώνυμο" /></td></tr>
+			<tr><td width="150px;"><i>Κατάσταση</i></td><td width="370"><input size="51" type="text" name="state_gr" placeholder="Κατάσταση" /></td></tr>
+			
+			<tr><td height="30px"></td></tr>
+			<tr><td colspan="2" align="center"><strong>English</strong></td></tr>
+			<tr><td width="150px;"><i>Title</i>
+				</td><td width="370">
+					<select name="title_en">
+						<option value="Mr">Mr</option>
+						<option value="Mrs">Mrs</option>
+					</select>
+				</td></tr>
+			<tr><td width="150px;"><i>Sex</i>
+				</td><td width="370">
+					<select name="sex_en">
+						<option value="Male">Male</option>
+						<option value="Female">Female</option>
+					</select>
+				</td></tr>
+			<tr><td width="150px;"><i>Last name</i></td><td width="370"><input size="51" type="text" name="lastname_en" placeholder="Last name" /></td></tr>
+			<tr><td width="150px;"><i>Name</i></td><td width="370"><input size="51" type="text" name="name_en" placeholder="Name" /></td></tr>
+			<tr><td width="150px;"><i>Father name</i></td><td width="370"><input size="51" type="text" name="fatherName_en" placeholder="Father name" /></td></tr>
+			<tr><td width="150px;"><i>State</i></td><td width="370"><input size="51" type="text" name="state_en" placeholder="State" /></td></tr>
+				
+		{% else %}{% if addMode == "aClasses" %}
+<!-- ADD CLASSES -->
+			{% if performEdit %}
+				<tr><td width="150px;"><i>Κωδικός</i></td><td width="370"><input size="51" type="text" name="idclassList" placeholder="Κωδικός με μορφή ΧΧ-ΧΧ" value='{{ classInfo.0.idclassList }}' /></td></tr>
+				{% if classInfo.0.active %}
+					<tr><td width="150px;"><i>Ενεργό</i></td><td width="370"><input type="checkbox" name="active" checked="on" /></td></tr>
+				{% else %}
+					<tr><td width="150px;"><i>Ενεργό</i></td><td width="370"><input type="checkbox" name="active" /></td></tr>
+				{% endif %}
+				<tr><td width="150px;"><i>Ακαδημαϊκή χρονιά</i></td><td width="370"><input size="51" type="text" name="academicYear" placeholder="Ακαδημαϊκή χρονιά" value='{{ classInfo.0.academicYear }}' /></td></tr>
+				<tr><td width="150px;"><i>Ώρες εβδομάδας</i></td><td width="370"><input size="51" type="text" name="weeklyHours" placeholder="Ώρες εβδομάδας" value='{{ classInfo.0.weeklyHours }}' onKeyPress="return numbersonly(this, event)" /></td></tr>
+				<tr><td width="150px;"><i>Αριθμός φοιτητών</i></td><td width="370"><input size="51" type="text" name="totalStudents" placeholder="Αριθμός φοιτητών" value='{{ classInfo.0.totalStudents }}' onKeyPress="return numbersonly(this, event)" /></td></tr>
+				<tr><td width="150px;"><i>Μέγιστος αριθμός φοιτητών</i></td><td width="370"><input size="51" type="text" name="maxStudents" placeholder="Μέγιστος αριθμός φοιτητών" value='{{ classInfo.0.maxStudents }}' onKeyPress="return numbersonly(this, event)" /></td></tr>
+				
+			{% else %}
+			<tr><td width="150px;"><i>Κωδικός</i></td><td width="370"><input size="51" type="text" name="idclassList" placeholder="Κωδικός με μορφή ΧΧ-ΧΧ" /></td></tr>
+			<tr><td width="150px;"><i>Ενεργό</i></td><td width="370"><input type="checkbox" name="active" /></td></tr>
+			<tr><td width="150px;"><i>Ακαδημαϊκή χρονιά</i></td><td width="370"><input size="51" type="text" name="academicYear" placeholder="Ακαδημαϊκή χρονιά" /></td></tr>
+			<tr><td width="150px;"><i>Ώρες εβδομάδας</i></td><td width="370"><input size="51" type="text" name="weeklyHours" placeholder="Ώρες εβδομάδας" onKeyPress="return numbersonly(this, event)" /></td></tr>
+			<tr><td width="150px;"><i>Αριθμός φοιτητών</i></td><td width="370"><input size="51" type="text" name="totalStudents" placeholder="Αριθμός φοιτητών" onKeyPress="return numbersonly(this, event)" /></td></tr>
+			<tr><td width="150px;"><i>Μέγιστος αριθμός φοιτητών</i></td><td width="370"><input size="51" type="text" name="maxStudents" placeholder="Μέγιστος αριθμός φοιτητών" onKeyPress="return numbersonly(this, event)" /></td></tr>
+			<tr><td width="150px;"><i>Τμήμα</i></td>
+				</td><td width="370">
+					<select id="departmentOptions" name="department_id" onchange="departmentChangedGetCourse(this.options[this.selectedIndex].value)">
+						{% for i in departments %}
+							<option value="{{ i.department_id }}">{{ i.depTitle }}</option>
+						{% endfor %}
+					</select>
+				</td></tr>
+			<tr><td width="150px;"><i>Μάθημα</i></td>
+				</td><td width="370">
+					<select id="courseOptions" name="course_id">
+					</select>
+				</td></tr>
+			<tr><td width="150px;"><i>Υπεύθυνος καθηγητής</i></td>
+				</td><td width="370">
+					<select name="professors_id">
+						{% for i in professors %}
+							<option value="{{ i.professors_id }}">{{ i.lastName }} {{ i.name }}</option>
+						{% endfor %}
+					</select>
+				</td></tr>
+			
+			<tr><td height="30px"></td></tr>
+			<tr><td colspan="2" align="center"><strong>Ελληνικά</strong></td></tr>
+			<tr><td width="150px;"><i>Τίτλος τάξης</i></td><td width="370"><input size="51" type="text" name="title_gr" placeholder="Τίτλος τάξης" /></td></tr>
+			<tr><td width="150px;"><i>Κατάσταση</i></td><td width="370"><input size="51" type="text" name="cstate_gr" placeholder="Κατάσταση" /></td></tr>
+			<tr><td width="150px;"><i>Περίοδος</i>
+				</td><td width="370">
+					<select name="classPeriod_gr">
+						<option value="ΟΛΕΣ">ΟΛΕΣ</option>
+						<option value="ΧΕΙΜ">ΧΕΙΜ</option>
+						<option value="ΕΑΡ">ΕΑΡ</option>
+					</select>
+				</td></tr>
+			
+			<tr><td height="30px"></td></tr>
+			<tr><td colspan="2" align="center"><strong>English</strong></td></tr>
+			<tr><td width="150px;"><i>Class title</i></td><td width="370"><input size="51" type="text" name="title_en" placeholder="Class title" /></td></tr>
+			<tr><td width="150px;"><i>State</i></td><td width="370"><input size="51" type="text" name="cstate_en" placeholder="State" /></td></tr>
+			<tr><td width="150px;"><i>Class period</i>
+				</td><td width="370">
+					<select name="classPeriod_en">
+						<option value="ALL">ALL</option>
+						<option value="WINT">WINT</option>
+						<option value="SPRI">SPRI</option>
+					</select>
+				</td></tr>
+			{% endif %}
+				
+		{% else %}{% if addMode == "aExams" %}
+<!-- ADD EXAMS -->
+			<tr><td width="150px;"><i>Ημερομηνία εξέτασης</i></td><td width="370"><input size="51" type="text" name="examDate" placeholder="Ημερομηνία εξέτασης" /></td></tr>
+			<tr><td width="150px;"><i>Ακαδημαϊκή χρονιά</i></td><td width="370"><input size="51" type="text" name="academicYear" placeholder="Ακαδημαϊκή χρονιά" /></td></tr>
+			<tr><td width="150px;"><i>Επανάληψη</i></td><td width="370"><input type="checkbox" name="repeat" /></td></tr>
+			<tr><td width="150px;"><i>Περίοδος</i>
+				</td><td width="370">
+					<select name="examsPeriod">
+						<option value="ΟΛΕΣ">ΟΛΕΣ</option>
+						<option value="ΧΕΙΜ">ΧΕΙΜ</option>
+						<option value="ΕΑΡ">ΕΑΡ</option>
+					</select>
+				</td></tr>
+			<tr><td width="150px;"><i>Τμήμα</i></td>
+				</td><td width="370">
+					<select id="departmentOptions" name="department_id" onchange="departmentChangedGetCourse(this.options[this.selectedIndex].value)">
+						{% for i in departments %}
+							<option value="{{ i.department_id }}">{{ i.depTitle }}</option>
+						{% endfor %}
+					</select>
+				</td></tr>
+			<tr><td width="150px;"><i>Μάθημα</i></td>
+				</td><td width="370">
+					<select id="courseOptions" name="course_id">
+					</select>
+				</td></tr>
+			
+			
+		{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}
+		
+	</table>
+
+	<input type="hidden" name="addMode" value="{{ addMode }}" />
+	{% if performEdit %}
+		<input id="add-button" type="submit" name="add" value="Ενημέρωση" />
+	{% else %}
+		<input id="add-button" type="submit" name="add" value="Προσθήκη" />
+	{% endif %}
+</form>
+
+<!-- modal content --> 
+<div id="osx-modal-content"> 
+	<div id="osx-modal-title">Προσθήκη νέου Τύπου</div> 
+	<div class="close"><a href="#" class="simplemodal-close">x</a></div> 
+	<div id="osx-modal-data" align="center"> 
+		<strong>Ελληνικά</strong> <br />
+		<input size="51" type="text" id="courseType" name="type_gr" placeholder="Τύπος" />
+		<br />
+		<strong>English</strong><br />
+		<input size="51" type="text" name="type_en" placeholder="Type" /> 
+		<br /><br />
+		<p><button class="simplemodal-close" onclick="addAndRefreshCourseType();">Αποθήκευση</button> </p> 
+	</div> 
+</div> 
+
+<div id="osx-modal-content_delete"> 
+	<div id="osx-modal-title_delete">Διαγραφή Τύπου</div> 
+	<div class="close"><a href="#" class="simplemodal-close">x</a></div> 
+	<div id="osx-modal-data_delete" align="center"> 
+		<br />
+		<strong>Προσοχή!</strong>
+		Διαγράφοντας την εγγραφή αυτή, όλα τα μαθήματα που υπάρχουν με αυτόν τον τύπο, θα συνεχίσουν να υπάρχουν
+		<b>αλλά</b> θα διαγραφούν από τις κατευθύνσεις τους.<br />
+		Είστε σίγουρος ότι θέλετε να συνεχίσετε;<br /><br />
+		<p><button class="simplemodal-close" onclick="removeAndRefreshCourseType();"><b>Διαγραφή</b></button>&nbsp;&nbsp;&nbsp;&nbsp; 
+			<button class="simplemodal-close"><b>Ακύρωση</b></button>
+			</p> 
+	</div> 
+</div> 
+
+</div>
+{% endblock content %}
+
+{% block more_js_bottom %}
+	
+{% endblock %}

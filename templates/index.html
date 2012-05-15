@@ -1,0 +1,34 @@
+﻿{% extends "base.html" %}
+
+{% block alerts %}
+	{% if error %}
+		<p id="error">{{ error }}</p>
+	{% else %}{% if warning %}
+		<p id="warning">{{ warning }}</p>
+	{% else %}{% if okmessage %}
+		<p id="ok">{{ okmessage }}</p>
+	{% else %}{% if message %}
+		<p id="message">{{ message }}</p>
+	{% endif %}{% endif %}{% endif %}{% endif %}
+{% endblock %}
+
+
+{% block pageheader %}
+{% load i18n %}
+<h3 align="Center">{% trans "Καλωσήρθατε στο Πρόγραμμα Σπουδών των σχολών του ΤΕΙ" %}!</h3>
+{% endblock pageheader %}
+
+
+{% block content %}
+<div class="page-wrapper">
+	<p class="wrapper-p">{% trans "Καλωςήρθατε! Αυτή είναι μία σελίδα για την προβολή και διαχείρηση του Προγράμματος Σπουδών για τις σχολές του ΤΕΙ Λάρισας" %}. 
+		<br /><br /><i>{% trans "Για να δείτε το Πρόγραμμα Σπουδών πατήστε παρακάτω" %}...</i>
+		</p>
+		
+	<p id="{% trans "button-wrapper" %}">
+		<a class="tooltip" href="/programma/" title="{% trans "Προβολή του Προγράμματος Σπουδών" %}">
+			prog
+		</a>
+	</p>
+</div>
+{% endblock content %}

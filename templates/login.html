@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+
+{% block title %}{% load i18n %}{% trans "Σύνδεση χρήστη" %} - {% endblock %}
+
+{% block alerts %}
+	{% if error %}
+		<p id="error">{{ error }}</p>
+	{% else %}{% if warning %}
+		<p id="warning">{{ warning }}</p>
+	{% else %}{% if okmessage %}
+		<p id="ok">{{ okmessage }}</p>
+	{% else %}{% if message %}
+		<p id="message">{{ message }}</p>
+	{% endif %}{% endif %}{% endif %}{% endif %}
+{% endblock %}
+
+
+{% block pageheader %}
+<h3 align="Center">{% trans "Σύνδεση χρήστη" %}</h3>
+{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+	<p class="prog-list-msg">{% trans "Εισάγεται παρακάτω τα στοιχεία σας" %}</p>
+	
+	<form name="loginForm" method="POST" action="">
+		{% csrf_token %}
+		<label for="username">Username</label>
+		<input type="text" name="username">
+		<label for="password">Password</label>
+		<input type="password" name="password">
+		<label class="remember" for="remember">{% trans "Μείνε Συνδεμένος" %}</label>
+		<input type="checkbox" name="remember" id="remember" value="true">
+		<input type="submit" value="{% trans "Είσοδος" %}">
+	</form>
+</div>
+{% endblock content %}
+
+
+{% block more_js_bottom %}
+<script type="text/javascript">
+		document.forms['loginForm'].elements['username'].focus();
+	</script>
+{% endblock %}

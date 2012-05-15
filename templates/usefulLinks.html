@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}{% load i18n %}{% trans "Χρήσιμοι σύνδεσμοι" %} - {% endblock %}
+
+{% block alerts %}
+	{% if error %}
+		<p id="error">{{ error }}</p>
+	{% else %}{% if warning %}
+		<p id="warning">{{ warning }}</p>
+	{% else %}{% if okmessage %}
+		<p id="ok">{{ okmessage }}</p>
+	{% else %}{% if message %}
+		<p id="message">{{ message }}</p>
+	{% endif %}{% endif %}{% endif %}{% endif %}
+{% endblock %}
+
+
+{% block pageheader %}
+<h3 align="Center">{% trans "Χρήσιμοι σύνδεσμοι σχετικά με το ΤΕΙ Λάρισας" %}</h3>
+{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+	<p class="prog-list-msg">{% trans "Πατήστε σε κάποιον υπερσύνδεσμο για να μεταβήτε στην αντίστοιχη ιστοσελίδα" %}</p>
+	<ul>
+		<li>{% trans "ΤΕΙ Λάρισας" %} <a href="http://www.teilar.gr">http://www.teilar.gr</a></li>
+		<li>{% trans "Σύστημα Διαχείρισης Ηλεκτρονικών Μαθημάτων" %} (e-class) <a href="http://e-class.teilar.gr">http://e-class.teilar.gr</a></li>
+		<li>{% trans "Πρόγραμμα Γραμματείας" %} <a href="http://dionysos.teilar.gr/">http://dionysos.teilar.gr</a></li>
+		<li>{% trans "Webmail του ΤΕΙ" %} <a href="http://email.cs.teilar.gr">http://email.cs.teilar.gr</a></li>
+		<li>{% trans "Γραφείο Διασύνδεσης" %} <a href="http://www.career.teilar.gr">http://www.career.teilar.gr</a></li>
+		<li>{% trans "Ενοποιημένες υπηρεσίες του ΤΕΙ" %} <a href="http://cronos.teilar.gr">http://cronos.teilar.gr</a></li>
+		<li>{% trans "Ηλεκτρονική δήλωση των εργαστηρίων" %} <a href="http://diogenis.teilar.gr">http://diogenis.teilar.gr</a></li>
+	</ul>
+</div>
+{% endblock content %}

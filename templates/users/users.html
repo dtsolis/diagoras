@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}{% load i18n %}{% trans "Χρήστες" %} - {% endblock %}
+
+{% block alerts %}
+	{% if error %}
+		<p id="error">{{ error }}</p>
+	{% else %}{% if warning %}
+		<p id="warning">{{ warning }}</p>
+	{% else %}{% if okmessage %}
+		<p id="ok">{{ okmessage }}</p>
+	{% else %}{% if message %}
+		<p id="message">{{ message }}</p>
+	{% endif %}{% endif %}{% endif %}{% endif %}
+{% endblock %}
+
+
+{% block pageheader %}
+<h3 align="Center">{% trans "Επιλογές χρήστη" %}</h3>
+{% endblock %}
+
+
+
+{% block content %}
+<div class="page-wrapper">
+	<p class="prog-list-msg">{% trans "Επέλεξε κάτι από τα παρακάτω" %}</p>
+	<ul>
+		<li><a href="/users/profile/">{% trans "Προβολή του προφίλ μου" %}</a></li>
+		<li><a href="/users/manage/">{% trans "Διαχείριση" %}</a></li>
+	</ul>
+	
+</div>
+{% endblock content %}

@@ -1,0 +1,378 @@
+{% extends "base.html" %}
+
+{% block more_css %}
+		<link rel="stylesheet" type="text/css" title="Style" href="/media/jquery.treeview/jquery.treeview.css" />
+		<link rel="stylesheet" type="text/css" title="Style" href="/media/jqueryDataTable/media/css/demo_page.css" />
+		<link rel="stylesheet" type="text/css" title="Style" href="/media/jqueryDataTable/media/css/demo_table.css" />
+{% endblock %}
+
+{% block more_js_top %}
+		<script type="text/javascript" src="/media/jqueryDataTable/media/js/jquery.dataTables.js"></script>
+		<script type="text/javascript" src="/media/js/dynamic-ajax-content.js"></script>
+		<script type="text/javascript" src="/media/jquery.treeview/jquery.treeview.min.js"></script>
+		<script type="text/javascript" src="/media/jquery.treeview/lib/jquery.cookie.js"></script>
+		
+
+		<script type="text/javascript">
+			$(function() {
+				$("#tree").treeview({
+					collapsed: false,
+					animated: "fast",
+					control:"#sidetreecontrol",
+					persist: "location"
+				});
+			});
+			
+			$(document).ready(function() {
+				$('#dataTable').dataTable(
+					{
+						"sScrollX": "100%",
+						"sScrollXInner": "180%",			
+        				"bScrollCollapse": true
+					});
+					$('#dataTable2').dataTable(
+					{
+						"sScrollX": "100%",
+						"sScrollXInner": "180%",			
+        				"bScrollCollapse": true
+					});
+			} );
+		</script>
+{% endblock %}
+
+{% block title %}{% load i18n %}{% trans "Πρόγραμμα Γραμματείας" %} - {% endblock %}
+
+{% block alerts %}
+	{% if error %}
+		<p id="error">{{ error }}</p>
+	{% else %}{% if warning %}
+		<p id="warning">{{ warning }}</p>
+	{% else %}{% if okmessage %}
+		<p id="ok">{{ okmessage }}</p>
+	{% else %}{% if message %}
+		<p id="message">{{ message }}</p>
+	{% endif %}{% endif %}{% endif %}{% endif %}
+{% endblock %}
+
+
+{% block pageheader %}
+<h3 align="Center">{% load i18n %}{% trans "Πρόγραμμα Γραμματείας" %}</h3>
+{% endblock %}
+
+
+{% block content %}
+{% load diagoras_extras %}
+{% load i18n %}
+		<div class="page-wrapper-big">
+			<p class="prog-list-msg" align="center">{% trans "Επιλέξτε κάτι από τη 'Δενδρική Προβολή', στα αριστερά, για να δείτε περισσότερες λεπτομέρειες" %}</p>
+			<div id="tree-view">
+				<div class="tree-view-title">- {% trans "Πρόγραμμα Σπουδών" %} -</div>
+				<br />
+				<ul id="tree">
+					<li><span>{% trans "Τμήματα" %}</span>
+					<ul>
+						{% for i in progList %}
+							{% if tmp != i.depTitle %}
+								<li class="closed"><span><img src="/media/img/column-16.png" />&nbsp;{{ i.depTitle }}</span>
+								<ul>
+									<li><a href="/users/secry/{{ i.iddepartment }}/courses/"><img src="/media/img/book-16.png" />&nbsp;{% trans "Μαθήματα" %}</a></li>
+									<li class="closed"><span><img src="/media/img/paper-14.png" />&nbsp;Προγράμματα Σπουδών</span>
+									<ul>
+										{% for j in progList %}
+											{% if i.depTitle == j.depTitle %}
+												<li class="closed"><span><img src="/media/img/paper-14.png" />&nbsp;{{ j.progTitle }}</span>
+												<ul>
+													<li><a href="/users/secry/{{ j.idprogList }}/proglist_courses/">{% trans "Μαθήματα και κατευθύνσεις" %}</a></li>
+												</ul>
+												</li>
+											{% endif %}
+										{% endfor %}
+									</ul>
+									</li>
+									<li><a href="/users/secry/{{ i.iddepartment }}/classes/"><img src="/media/img/blackboard-16.png" />&nbsp;{% trans "Τάξεις" %}</a></li>
+									<li><a href="/users/secry/{{ i.iddepartment }}/exams/"><img src="/media/img/exams-16.png" />&nbsp;{% trans "Εξετάσεις" %}</a></li>
+								</ul>
+								</li>
+							{% endif %}
+							
+							{% set tmp = i.depTitle %}
+						{% endfor %}
+					</ul>
+					</li>
+					<li><a href="/users/secry/professors/"><span>{% trans "Προσωπικό" %}</span></a></li>
+				</ul>
+				<br />
+			</div>
+			{% if tableDataMode == "spCourses" %}
+			<div align="right" style="margin-top: 20px;">
+				<a href="/users/secry/{{ proglist_id }}/edit_curriculum/">Επεξεργασία Προγράμματος Σπουδών </a>
+			</div>
+			{% endif %}
+			<div id="tree-view-details">
+				
+				<p class="prog-list-msg">
+					{% if tableDataMode == "sCourses" or tableDataMode == "spCourses" or tableDataMode == "sClasses" or tableDataMode == "sExams" or tableDataMode == "sProfessors" %}
+					<table cellpadding="0" cellspacing="0" border="0" class="display" id="dataTable"> 
+						<thead> 
+							<tr> 
+								{% if tableDataMode == "sCourses" %}
+									<th>{% trans "Τύπος" %}</th> 
+									<th>{% trans "Ενεργό" %}</th> 
+									<th>{% trans "Κωδικός" %}</th> 
+									<th>{% trans "Τίτλος" %}</th> 
+									<th>{% trans "Τίτλος 2" %}</th> 
+									<th>{% trans "Υπεύθυνος" %}</th>
+									<th>{% trans "Γνωστ.Αντικείμενο" %}</th>
+									<th>{% trans "Κλίμ.Βαθμολογίας" %}</th>
+									<th>{% trans "Περ.Διδασκ" %}</th>
+									<th>{% trans "Υποτροφίες" %}</th>
+									<th>{% trans "Ώρες" %}</th>
+									<th>{% trans "Δ.Μ." %}</th>
+									<th>{% trans "Αντικατάστ.από" %}</th>
+									<th>{% trans "Διδάσκεται" %}</th>
+									<th>{% trans "Επεξεργασία" %}</th>
+								{% else %}{% if tableDataMode == "sClasses" %}
+									<th>{% trans "Τύπος" %}</th> 
+									<th>{% trans "Ενεργό" %}</th> 
+									<th>{% trans "Κωδικός Τάξης" %}</th> 
+									<th>{% trans "Κωδ. Μαθήματος" %}</th> 
+									<th>{% trans "Ακ. Έτος" %}</th> 
+									<th>{% trans "Περίοδος" %}</th>
+									<th>{% trans "Τίτλος Τάξης" %}</th>
+									<th>{% trans "Ώρες την εβδομάδα" %}</th>
+									<th>{% trans "Διδάσκοντες" %}</th>
+									<th>{% trans "Κατάσταση" %}</th>
+									<th>{% trans "Σ.Φ." %}</th>
+									<th>{% trans "Μεγ. Αριθμός" %}</th>
+									<th>{% trans "Επεξεργασία" %}</th>
+								{% else %}{% if tableDataMode == "sExams" %}
+									<th>{% trans "Τύπος" %}</th> 
+									<th>{% trans "Ενεργό" %}</th> 
+									<th>{% trans "Κωδικός Μαθ" %}</th> 
+									<th>{% trans "Τίτλος" %}</th> 
+									<th>{% trans "Περιγραφή" %}</th>
+									<th>{% trans "Ακ. Έτος" %}</th> 
+									<th>{% trans "Εξ Περ" %}</th>
+									<th>{% trans "Επανάληψη" %}</th>
+									<th>{% trans "Ημερομηνία" %}</th>
+									<th>{% trans "Υπεύθυνος Καθηγητής" %}</th>
+								{% else %}{% if tableDataMode == "spCourses" %}
+									<th>{% trans "Τύπος" %}</th> 
+									<th>{% trans "Ενεργό" %}</th> 
+									<th>{% trans "Κωδικός Μαθ" %}</th> 
+									<th>{% trans "Τίτλος" %}</th> 
+									<th>{% trans "Γνωστ. Αντικείμενο" %}</th>
+									<th>{% trans "Τύπος Περ" %}</th>
+									<th>{% trans "ΔΜ" %}</th>
+									<th>ECTS</th>
+									<th>{% trans "Τμήμα" %}</th>
+									<th>{% trans "Ώρες" %}</th>
+									<th>{% trans "Υπεύθυνος Καθηγητής" %}</th>
+									<th>{% trans "Ισχύει Από" %}</th>
+									<th>{% trans "Επεξεργασία" %}</th>
+								{% else %}{% if tableDataMode == "sProfessors" %}
+									<th>{% trans "Κωδικός" %}</th> 
+									<th>{% trans "Τίτλος" %}</th> 
+									<th>{% trans "Επώνυμο" %}</th> 
+									<th>{% trans "Όνομα" %}</th> 
+									<th>{% trans "Πατρώνυμο" %}</th> 
+									<th>{% trans "Φύλο" %}</th>
+									<th>{% trans "Κατάταση" %}</th>
+									<th>{% trans "Ενεργός" %}</th>
+									<th>{% trans "Ημ/νία πρόσληψης" %}</th>
+									<th>Email</th>
+									<th>{% trans "Επεξεργασία" %}</th>
+								{% else %}
+									<th>col 1</th> 
+									<th>col 2</th> 
+									<th>col 3</th> 
+									<th>col 4</th> 
+									<th>col 5</th> 
+								{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}
+							</tr> 
+						</thead> 
+						<tbody> 
+							{% for i in tableData %}
+								<tr class="gradeC odd">
+									{% if tableDataMode == "sCourses" %}
+										<td class="center">
+											{% if i.courseType == _("Απλό Μάθημα") %}
+												<img src="/media/img/course1.gif" /> 
+											{% else %}{% if i.courseType == _("Σύνθετο Μάθημα") %}
+												<img src="/media/img/course2.gif" />
+											{% else %}
+												<img src="/media/img/course3.gif" />
+											{% endif %}{% endif %}
+										</td>
+										<td class="center">
+											{% if i.active %}
+												<input type="checkbox" name="checkbox" checked="yes" disabled="yes" />
+											{% else %}
+												<input type="checkbox" name="checkbox" disabled="yes" />
+											{% endif %}
+										</td>
+										<td>{{ i.idcourses }}</td>
+										<td>{{ i.title1 }}</td>
+										<td>{{ i.title2 }}</td>
+										<td>{{ i.lastName }} {{ i.name }}</td>
+										<td>{{ i.knownObject }}</td>
+										<td class="center">{{ i.gradeScale }}</td>
+										<td class="center">{{ i.teachPeriod }}</td>
+										<td class="center">
+											{% if i.scholarships %}
+												<input type="checkbox" name="checkbox" checked="yes" disabled="yes" />
+											{% else %}
+												<input type="checkbox" name="checkbox" disabled="yes" />
+											{% endif %}
+										</td>
+										<td class="center">{{ i.teachHours }}</td>
+										<td class="center">{{ i.cdm }}</td>
+										<td>{{ i.replacedBy_id }}</td>
+										<td class="center">
+											{% if i.didasketai %}
+												<input type="checkbox" name="checkbox" checked="yes" disabled="yes" />
+											{% else %}
+												<input type="checkbox" name="checkbox" disabled="yes" />
+											{% endif %}
+										</td>
+										<td class="center"><a href="#" class="tooltip" title="{% trans "Επεξεργασία" %}"><img src="/media/img/edit-16.png" /></a></td>
+										
+									{% else %}{% if tableDataMode == "sClasses" %}
+										<td class="center">
+											{% if i.courseType == _("Απλό Μάθημα") %}
+												<img src="/media/img/course1.gif" /> 
+											{% else %}{% if i.courseType == _("Σύνθετο Μάθημα") %}
+												<img src="/media/img/course2.gif" />
+											{% else %}
+												<img src="/media/img/course3.gif" />
+											{% endif %}{% endif %}
+										</td>
+										<td class="center">
+											{% if i.active %}
+												<input type="checkbox" name="checkbox" checked="yes" disabled="yes" />
+											{% else %}
+												<input type="checkbox" name="checkbox" disabled="yes" />
+											{% endif %}
+										</td>
+										<td>{{ i.idclassList }}</td>
+										<td>{{ i.idcourses }}</td>
+										<td class="center">{{ i.academicYear }}</td>
+										<td class="center">{{ i.classPeriod }}</td>
+										<td>{{ i.title }}</td>
+										<td class="center">{{ i.weeklyHours }}</td>
+										<td>{{ i.lastName }} {{ i.name }}</td>
+										<td>{{ i.cstate }}</td>
+										<td class="center">{{ i.totalStudents }}</td>
+										<td class="center">{{ i.maxStudents }}</td>
+										<td class="center"><a href="#" class="tooltip" title="{% trans "Επεξεργασία" %}"><img src="/media/img/edit-16.png" /></a></td>
+										
+									{% else %}{% if tableDataMode == "sExams" %}
+										<td class="center">
+											{% if i.courseType == _("Απλό Μάθημα") %}
+												<img src="/media/img/course1.gif" /> 
+											{% else %}{% if i.courseType == _("Σύνθετο Μάθημα") %}
+												<img src="/media/img/course2.gif" />
+											{% else %}
+												<img src="/media/img/course3.gif" />
+											{% endif %}{% endif %}
+										</td>
+										<td class="center">
+											{% if i.active %}
+												<input type="checkbox" name="checkbox" checked="yes" disabled="yes" />
+											{% else %}
+												<input type="checkbox" name="checkbox" disabled="yes" />
+											{% endif %}
+										</td>
+										<td>{{ i.idcourses }}</td>
+										<td>{{ i.title1 }}</td>
+										<td>{{ i.description }}</td>
+										<td class="center">{{ i.academicYear }}</td>
+										<td class="center">{{ i.examsPeriod }}</td>
+										<td class="center">
+											{% if i.repeat %}
+												<input type="checkbox" name="checkbox" checked="yes" disabled="yes" />
+											{% else %}
+												<input type="checkbox" name="checkbox" disabled="yes" />
+											{% endif %}
+										</td>
+										<td class="center">{{ i.examDate }}</td>
+										<td>{{ i.lastName }} {{ i.name }}</td>
+										<td class="center"><a href="#" class="tooltip" title="{% trans "Επεξεργασία" %}"><img src="/media/img/edit-16.png" /></a></td>
+										
+									{% else %}{% if tableDataMode == "spCourses" %}
+										<td class="center">
+											{% if i.courseType == _("Απλό Μάθημα") %}
+												<img src="/media/img/course1.gif" /> 
+											{% else %}{% if i.courseType == _("Σύνθετο Μάθημα") %}
+												<img src="/media/img/course2.gif" />
+											{% else %}
+												<img src="/media/img/course3.gif" />
+											{% endif %}{% endif %}
+										</td>
+										<td class="center">
+											{% if i.active %}
+												<input type="checkbox" name="checkbox" checked="yes" disabled="yes" />
+											{% else %}
+												<input type="checkbox" name="checkbox" disabled="yes" />
+											{% endif %}
+										</td>
+										<td>{{ i.idcourses }}</td>
+										<td>{{ i.title1 }}</td>
+										<td>{{ i.knownObject }}</td>
+										<td>{{ i.selectionType }}</td>
+										<td class="center">{{ i.cdm }}</td>
+										<td class="center">{{ i.ects }}</td>
+										<td>{{ i.depTitle }}</td>
+										<td class="center">{{ i.teachHours }}</td>
+										<td>{{ i.lastName }} {{ i.name }}</td>
+										<td class="center">{{ i.validationPeriod }}</td>
+										<td class="center"><a href="#" class="tooltip" title="{% trans "Επεξεργασία" %}"><img src="/media/img/edit-16.png" /></a></td>
+									{% else %}{% if tableDataMode == "sProfessors" %}
+										<td>{{ i.idprofessors }}</td> 
+										<td class="center">{{ i.title }}</td> 
+										<td>{{ i.lastName }}</td> 
+										<td>{{ i.name }}</td> 
+										<td>{{ i.fatherName }}</td> 
+										<td class="center">{{ i.sex }}</td>
+										<td>{{ i.state }}</td>
+										<td class="center">Ενεργός</td>
+										<td>{{ i.hireDate }}</td>
+										<td>{{ i.email }}</td>
+										<td class="center"><a href="#" class="tooltip" title="{% trans "Επεξεργασία" %}"><img src="/media/img/edit-16.png" /></a></td>
+									{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}
+								</tr>
+							{% endfor %}
+						</tbody> 
+						<tfoot> 
+							<tr> 
+								<th></th> 
+							</tr> 
+						</tfoot> 
+					</table> 
+				</p>
+					{% else %}
+						
+				</p>
+				
+					<p>{% trans "Επιλέγοντας κάτι από τα παρακάτω μπορείτε να ενημερώσετε με πληροφορίες τον Διαγόρα" %}!</p>
+				<ul>
+					<li><a href="/users/secry/add_school">{% trans "Προσθήκη Σχολής" %}</a></li><br />
+					<li><a href="/users/secry/add_department" >{% trans "Προσθήκη Τμήματος" %}</a></li><br />
+					<li><a href="/users/secry/add_proglist">{% trans "Προσθήκη Προγράμματος Σπουδών" %}</a></li><br />
+					<li><a href="/users/secry/add_orientation">{% trans "Προσθήκη Κατεύθυνσης" %}</a></li><br />
+					<li><a href="/users/secry/add_courses">{% trans "Προσθήκη Μαθήματος" %}</a></li><br />
+					<li><a href="/users/secry/add_bibliography">{% trans "Προσθήκη Βιβλιογραφίας" %}</a></li><br />
+					<li><a href="/users/secry/add_professor">{% trans "Προσθήκη Καθηγητή" %}</a></li><br />
+					<li><a href="/users/secry/add_classes">{% trans "Προσθήκη Τάξης" %}</a></li><br />
+					<li><a href="/users/secry/add_exams">{% trans "Προσθήκη Εξεταστικής περιόδου" %}</a></li>
+				</ul>
+				
+					{% endif %}
+			</div>
+		</div>
+	
+{% endblock content %}
+
+{% block more_js_bottom %}
+	
+{% endblock %}

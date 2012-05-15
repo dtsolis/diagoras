@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}{% load i18n %}{% trans "Διαχείριση" %} - {% endblock %}
+
+{% block alerts %}
+	{% if error %}
+		<p id="error">{{ error }}</p>
+	{% else %}{% if warning %}
+		<p id="warning">{{ warning }}</p>
+	{% else %}{% if okmessage %}
+		<p id="ok">{{ okmessage }}</p>
+	{% else %}{% if message %}
+		<p id="message">{{ message }}</p>
+	{% endif %}{% endif %}{% endif %}{% endif %}
+{% endblock %}
+
+
+
+
+{% block pageheader %}
+<h3 align="Center">{% trans "Διαχείριση" %}</h3>
+{% endblock %}
+
+
+
+
+{% block content %}
+	{% if sub == "add user" %}
+		<div class="page-wrapper">
+			<p class="prog-list-msg">{{sub}} </p>
+			
+			
+		</div>
+	{% else %}{% if sub == "edit user" %}
+		<div class="page-wrapper">
+			<p class="prog-list-msg">{{sub}} </p>
+			
+			
+		</div>
+	{% else %}
+		<div class="page-wrapper">
+			<p class="prog-list-msg">{% trans "Διάλεξε κάτι από τα παρακάτω" %}</p>
+			
+			<ul>
+				<li><a href="/admin/">Django Admin</a></li>
+			</ul>
+			<ul>
+				<li><a href="/users/manage/new/">{% trans "Δημιουργία νέου χρήστη" %}</a></li>
+				<li><a href="/users/manage/edit/">{% trans "Επεξεργασία ενός χρήστη" %}</a></li>
+			</ul>
+			<ul>
+				<li><a href="/users/messages/forward/" class="tooltip" title="{% trans "Διαχειρηστείτε την λίστα με τις εγγραφές για προώθηση των μηνυμάτων επικοινωνίας" %}">{% trans "Διαχείρηση προωθήσεων μηνυμάτων" %}</a></li>
+				<li><a href="/users/messages/" class="tooltip" title="{% trans "Δείτε την λίστα με τα εισερχόμενα μηνύματα επικοινωνίας" %}">{% trans "Κέντρο μηνυμάτων" %}</a></li>
+			</ul>
+		</div>
+	{% endif %}{% endif %}
+{% endblock content %}

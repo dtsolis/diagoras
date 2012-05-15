@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}{% load i18n %}{% trans "Μηνύματα" %} - {% endblock %}
+
+{% block alerts %}
+	{% if error %}
+		<p id="error">{{ error }}</p>
+	{% else %}{% if warning %}
+		<p id="warning">{{ warning }}</p>
+	{% else %}{% if okmessage %}
+		<p id="ok">{{ okmessage }}</p>
+	{% else %}{% if message %}
+		<p id="message">{{ message }}</p>
+	{% endif %}{% endif %}{% endif %}{% endif %}
+{% endblock %}
+
+
+{% block pageheader %}
+{% if state == "details" %}
+	<h3 align="Center">{% trans "Λεπτομέρειες μηνύματος" %}</h3>
+{% else %}
+	<h3 align="Center">{% trans "Κέντρο μηνυμάτων" %}</h3>
+{% endif %}
+{% endblock %}
+
+
+
+{% block content %}
+<div class="page-wrapper">
+	
+	
+	{% if state == "details" %}
+		<p class="prog-list-msg">{% trans "Λεπτομέρειες για το μήνυμα από" %}: {{ details.sndrName }}</p>
+		
+		<div class="message-details">
+			<table>
+				<tr><td width="60px;"><i>{% trans "Όνομα" %}:</i></td><td width="670">{{ details.sndrName }}</td></tr>
+				<tr><td><i>E-mail:</i></td><td><a href="mailto:{{ details.sndrEmail }}">{{ details.sndrEmail }}</a></td></tr>
+				<tr><td><i>{% trans "Θέμα" %}:</i></td><td>{{ details.subject }}</td></tr>
+				<tr><td></td><td align="right">{{ details.date }}</td></tr>
+				<tr><td colspan="2"><hr /></td></tr>
+				<tr><td colspan="2">{{ details.message }}</td></tr>
+			</table>
+		</div>
+	{% else %}
+		<p class="prog-list-msg">{% trans "Πατήστε πάνω σε κάποιο θέμα για να δείτε το μήνυμα του" %}</p>
+	
+		<div class="messages-list">
+			<form name="messagesform" method="POST" action="">
+				{% csrf_token %}
+				<ul align="right">
+					<li><a href="#" onclick="submitLink(document.forms[0], 'act', 'read');" class="tooltip" title="{% trans "Μαρκάρισμα μηνύματος ως αναγνωσμένο" %}">{% trans "Αναγνωσμένο" %}</a></li>
+					<li><a href="#" onclick="submitLink(document.forms[0], 'act', 'unread');" class="tooltip" title="{% trans "Μαρκάρισμα μηνύματος ως μη αναγνωσμένο" %}">{% trans "Μη αναγνωσμένο" %}</a></li>
+					<li><a href="#" onclick="submitLink(document.forms[0], 'act', 'del');" class="tooltip" title="{% trans "Διέγραψε το μήνυμα" %}">{% trans "Διαγραφή" %}</a></li>
+				</ul>
+				
+				<table>
+					<tr class="message-header">
+						<td style="width: 30px;"><input type="checkbox" id="selectAll" /></td><td style="width: 150px;">{% trans "Όνομα αποστολέα" %}</td><td style="width: 380px;">{% trans "Θέμα" %}</td><td>{% trans "Ημερομηνία" %}</td>
+					</tr>
+					{% for m in list %}
+						{% if not m.read %}
+							<tr style="font-weight: bold;">
+						{% else %}
+							<tr>
+						{% endif %}
+							<td><input type="checkbox" class="checked" name="checkbox" value="{{ m.idmessage }}" /></td><td>{{ m.sndrName }}</td><td><a class="tooltip" href="/users/messages/{{ m.idmessage }}/" title="{{ m.subject}}">{{ m.subject}}</a></td><td>{{ m.date }}</td>
+						</tr>
+					{% endfor %}
+				</table>
+				
+				<input type="hidden" name="act" value="" />
+			</form>
+			<p class="forward-msg"><a href="/users/messages/forward/" class="tooltip" title="{% trans "Διαχειρηστείτε την λίστα με τις εγγραφές για προώθηση των μηνυμάτων επικοινωνίας" %}">- {% trans "Διαχείρηση Προωθήσεων" %} -</a></p>
+		</div>
+	{% endif %}
+	
+</div>
+{% endblock content %}
+
+
+{% block more_js_bottom %}
+	<script language="javascript">
+		$("#selectAll").change(function() {
+		  $("input.checked[type=checkbox]").attr('checked', this.checked);
+		});
+	</script>
+{% endblock %}

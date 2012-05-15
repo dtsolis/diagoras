@@ -1,0 +1,922 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-05-02 22:38+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: settings.py:120
+msgid "Greek"
+msgstr "Greek"
+
+#: settings.py:121
+msgid "English"
+msgstr "English"
+
+#: views.py:46
+msgid "lathos eisagogi stoixeiwn"
+msgstr "Wrong input data"
+
+#: views.py:65
+msgid "den symplirothikan ola ta stoixeia"
+msgstr "Not completed all the data"
+
+#: views.py:77
+msgid "test string to translate"
+msgstr ""
+
+#: templates/base.html:49
+msgid "Welcome"
+msgstr "Welcome"
+
+#: templates/base.html:53
+msgid "Guest"
+msgstr "Guest"
+
+#: templates/base.html:60 templates/login.html:4 templates/login.html.py:20
+msgid "Σύνδεση χρήστη"
+msgstr " Log in user"
+
+#: templates/base.html:60
+msgid "Login"
+msgstr "Login"
+
+#: templates/base.html:62 templates/usefulLinks.html:28
+#: templates/secry/secry.html:43 templates/secry/secry.html.py:59
+msgid "Πρόγραμμα Γραμματείας"
+msgstr "Secretary Program"
+
+#: templates/base.html:62
+msgid "Secretary Program"
+msgstr ""
+
+#: templates/base.html:63
+msgid "Διαχείριση της σελίδας"
+msgstr "Management of the page"
+
+#: templates/base.html:63
+msgid "Management"
+msgstr ""
+
+#: templates/base.html:64
+msgid "Προβολή μηνυμάτων που άφησαν οι επισκέπτες"
+msgstr "View messages left by visitors"
+
+#: templates/base.html:64
+msgid "Messages"
+msgstr ""
+
+#: templates/base.html:65
+msgid "Αποσύνδεση χρήστη"
+msgstr "Logout User"
+
+#: templates/base.html:65
+msgid "Logout"
+msgstr ""
+
+#: templates/base.html:82 templates/programma.html:27
+msgid "Αρχική σελίδα"
+msgstr "Home Page"
+
+#: templates/base.html:82
+msgid "Diagoras"
+msgstr ""
+
+#: templates/base.html:83
+msgid "Service"
+msgstr ""
+
+#: templates/base.html:103
+msgid "Επιστροφή στην αρχική σελίδα"
+msgstr "Return to home page"
+
+#: templates/base.html:103
+msgid "Home Page"
+msgstr ""
+
+#: templates/base.html:104
+msgid "Προβολή της λίστας με τα Προγράμματα Σπουδών"
+msgstr "View the list with the curriculum"
+
+#: templates/base.html:104
+msgid "Curriculum"
+msgstr ""
+
+#: templates/base.html:105
+msgid "Σύνδεσμοι για άλλες χρήσιμες σελίδες"
+msgstr "Links for other useful pages"
+
+#: templates/base.html:105
+msgid "Useful Links"
+msgstr ""
+
+#: templates/base.html:106
+msgid "Επικοινωνίστε μαζί μας"
+msgstr "Contact us"
+
+#: templates/base.html:106
+msgid "Contact Us"
+msgstr ""
+
+#: templates/base.html:109
+msgid "Πιο γρήγορη και πιο άμμεση προβολή του Προγράμματος Σπουδών"
+msgstr "Faster and direct view of the curriculum"
+
+#: templates/base.html:109
+msgid "Quick View"
+msgstr ""
+
+#: templates/contact.html:3 templates/contact.html.py:19
+msgid "Επικοινωνία"
+msgstr "Contact"
+
+#: templates/contact.html:24
+msgid "Συμπληρώστε τα πεδία με"
+msgstr "Fill the fields"
+
+#: templates/contact.html:31 templates/secry/secry.html:178
+#: templates/users/messages.html:37
+msgid "Όνομα"
+msgstr "Name"
+
+#: templates/contact.html:37 templates/users/messages.html:39
+#: templates/users/messages.html.py:59
+msgid "Θέμα"
+msgstr "Subject"
+
+#: templates/contact.html:40
+msgid "Μήνυμα"
+msgstr "Message"
+
+#: templates/contact.html:43
+msgid "Αποστολή"
+msgstr "Send"
+
+#: templates/index.html:18
+msgid "Καλωσήρθατε στο Πρόγραμμα Σπουδών των σχολών του ΤΕΙ"
+msgstr "Welcome to the curracilum of faculties of the TEI of Larissa"
+
+#: templates/index.html:24
+msgid ""
+"Καλωςήρθατε! Αυτή είναι μία σελίδα για την προβολή και διαχείρηση του "
+"Προγράμματος Σπουδών για τις σχολές του ΤΕΙ Λάρισας"
+msgstr ""
+"Welcome! This is a page of the view and the management to the curracilum of "
+"the faculties of the TEI Larissas"
+
+#: templates/index.html:25
+msgid "Για να δείτε το Πρόγραμμα Σπουδών πατήστε παρακάτω"
+msgstr "To view the curriculum click below"
+
+#: templates/index.html:28
+msgid "button-wrapper"
+msgstr "button-wrapper-english"
+
+#: templates/index.html:29
+msgid "Προβολή του Προγράμματος Σπουδών"
+msgstr "View the curriculum"
+
+#: templates/login.html:25
+msgid "Εισάγεται παρακάτω τα στοιχεία σας"
+msgstr "Enter your details below"
+
+#: templates/login.html:33
+msgid "Μείνε Συνδεμένος"
+msgstr "Stay logged in"
+
+#: templates/login.html:35
+msgid "Είσοδος"
+msgstr "Enter"
+
+#: templates/programma.html:3 templates/secry/secry.html:69
+#, fuzzy
+msgid "Πρόγραμμα Σπουδών"
+msgstr "Secretary Program"
+
+#: templates/programma.html:19
+msgid "Προπτυχιακά Προγράμματα Σπουδών"
+msgstr "Undergraduate courses"
+
+#: templates/programma.html:29 templates/programma.html.py:33
+#: templates/programma.html:38
+msgid "Προγράμματα Σπουδών"
+msgstr "Curriculum"
+
+#: templates/programma.html:53
+msgid "Επιλέξτε κάποιο Μάθημα για να δείτε περισσότερες λεπτομέρειες"
+msgstr "Select a course to see more details"
+
+#: templates/programma.html:59 templates/programma.html.py:141
+#: templates/secry/secry.html:169
+msgid "Τμήμα"
+msgstr "Section"
+
+#: templates/programma.html:63
+msgid "Σχολή"
+msgstr "Faculty"
+
+#: templates/programma.html:67
+msgid "Επίπεδο σπουδών"
+msgstr "Level of study"
+
+#: templates/programma.html:71
+msgid "Τίτλος Διπλώματος"
+msgstr "Title of diploma"
+
+#: templates/programma.html:75
+msgid "Δίδακτρα"
+msgstr "Fees"
+
+#: templates/programma.html:77
+msgid "ΝΑΙ"
+msgstr "YES"
+
+#: templates/programma.html:79
+msgid "ΟΧΙ"
+msgstr "NO"
+
+#: templates/programma.html:83
+msgid "Εξάμηνα"
+msgstr "Semesters"
+
+#: templates/programma.html:94 templates/programma.html.py:176
+msgid "Μέρος Σύνθετου Μαθήματος"
+msgstr "Complex course part"
+
+#: templates/programma.html:97 templates/programma.html.py:150
+#: templates/quick.html:37 templates/feeds/course-details.html:15
+msgid "Εξάμηνο"
+msgstr "Semesters"
+
+#: templates/programma.html:102 templates/programma.html.py:124
+#: templates/quick.html:44 templates/secry/secry.html:200
+#: templates/secry/secry.html.py:243 templates/secry/secry.html:272
+#: templates/secry/secry.html.py:305
+msgid "Απλό Μάθημα"
+msgstr "Simple course"
+
+#: templates/programma.html:104 templates/programma.html.py:126
+#: templates/programma.html:169 templates/quick.html:46
+#: templates/secry/secry.html:202 templates/secry/secry.html.py:245
+#: templates/secry/secry.html:274 templates/secry/secry.html.py:307
+msgid "Σύνθετο Μάθημα"
+msgstr "Complex course"
+
+#: templates/programma.html:120
+msgid "Λεπτομέρειες για το μάθημα"
+msgstr "Details for the course"
+
+#: templates/programma.html:138 templates/feeds/course-details.html:10
+#: templates/secry/secry.html:122 templates/secry/secry.html.py:175
+msgid "Κωδικός"
+msgstr "Code"
+
+#: templates/programma.html:144 templates/feeds/course-details.html:11
+#: templates/secry/secry.html:123 templates/secry/secry.html.py:153
+#: templates/secry/secry.html:164 templates/secry/secry.html.py:176
+msgid "Τίτλος"
+msgstr "Title"
+
+#: templates/programma.html:147 templates/quick.html:52
+#: templates/secry/secry.html:120 templates/secry/secry.html.py:136
+#: templates/secry/secry.html:150 templates/secry/secry.html.py:161
+msgid "Τύπος"
+msgstr "Type"
+
+#: templates/programma.html:153
+msgid "Διδακτικές Μονάδες"
+msgstr "Teaching units"
+
+#: templates/programma.html:156 templates/secry/secry.html:125
+msgid "Υπεύθυνος"
+msgstr "Responsible"
+
+#: templates/programma.html:156
+msgid "Επικοινωνία μέσω E-mail"
+msgstr "Contact via E-mail"
+
+#: templates/programma.html:159
+msgid "Γνωστικό αντικείμενο"
+msgstr "Congnitive object"
+
+#: templates/programma.html:162
+msgid "Περίοδος διδασκαλίας"
+msgstr ""
+
+#: templates/programma.html:165 templates/feeds/course-details.html:17
+#: templates/secry/secry.html:154
+msgid "Περιγραφή"
+msgstr "Description"
+
+#: templates/programma.html:170
+msgid "Μέρη Μαθήματος"
+msgstr "Parts of the course"
+
+#: templates/programma.html:173 templates/programma.html.py:179
+msgid "Κάνε κλικ για να μεταβείς στις πληροφορίες για το μάθημα"
+msgstr "Click to jump to information on the course"
+
+#: templates/programma.html:177
+msgid "Γονέας Μαθήματος"
+msgstr "Parent course"
+
+#: templates/programma.html:185 templates/quick.html:65
+msgid "Επιλέξτε κάποιο Πρόγραμμα Σπουδών"
+msgstr "Select a curriculum"
+
+#: templates/programma.html:192 templates/quick.html:72
+msgid "Τα μαθήματα του"
+msgstr "The courses of"
+
+#: templates/quick.html:7
+msgid "Πρόγραμμα Σπουδών (Γρήγορη προβολή)"
+msgstr "Curriculum (quick view)"
+
+#: templates/quick.html:23
+msgid "Προπτυχιακά Προγράμματα Σπουδών - Γρήγορη προβολή"
+msgstr "Undergraduate curriculum - Quick view"
+
+#: templates/quick.html:32
+msgid ""
+"Επιλέξτε κάποιο Μάθημα, στα αριστερά, για να δείτε περισσότερες λεπτομέρειες"
+msgstr "Select a course,in the left, to view more details"
+
+#: templates/quick.html:52 templates/feeds/course-details.html:12
+msgid "Χαρακτηρισμός"
+msgstr "Characterisation"
+
+#: templates/quick.html:52 templates/feeds/course-details.html:14
+#: templates/secry/secry.html:167
+msgid "ΔΜ"
+msgstr "TU"
+
+#: templates/quick.html:53
+msgid "Θεωρία"
+msgstr "Theory"
+
+#: templates/quick.html:53
+msgid "Φροντηστήριο"
+msgstr "Tutorial"
+
+#: templates/quick.html:53
+msgid "Εργαστήριο"
+msgstr "Laboratory"
+
+#: templates/quick.html:60
+msgid "Χώρος για τις λεπτομέρειες των μαθημάτων"
+msgstr "Space of the details of courses"
+
+#: templates/usefulLinks.html:3
+msgid "Χρήσιμοι σύνδεσμοι"
+msgstr "Useful links"
+
+#: templates/usefulLinks.html:19
+msgid "Χρήσιμοι σύνδεσμοι σχετικά με το ΤΕΙ Λάρισας"
+msgstr "Useful links on the TEI Larissa"
+
+#: templates/usefulLinks.html:24
+msgid ""
+"Πατήστε σε κάποιον υπερσύνδεσμο για να μεταβήτε στην αντίστοιχη ιστοσελίδα"
+msgstr "Tap on a heperlink to go to the corresponding page"
+
+#: templates/usefulLinks.html:26
+msgid "ΤΕΙ Λάρισας"
+msgstr "TEI Larissa"
+
+#: templates/usefulLinks.html:27
+msgid "Σύστημα Διαχείρισης Ηλεκτρονικών Μαθημάτων"
+msgstr "Electronic course management system"
+
+#: templates/usefulLinks.html:29
+msgid "Webmail του ΤΕΙ"
+msgstr ""
+
+#: templates/usefulLinks.html:30
+msgid "Γραφείο Διασύνδεσης"
+msgstr "Office management"
+
+#: templates/usefulLinks.html:31
+msgid "Ενοποιημένες υπηρεσίες του ΤΕΙ"
+msgstr "Consolidated services TEI"
+
+#: templates/usefulLinks.html:32
+msgid "Ηλεκτρονική δήλωση των εργαστηρίων"
+msgstr "Online registraion workshop"
+
+#: templates/feeds/course-details.html:13
+msgid "Ω/Εβδ"
+msgstr "Hours/week"
+
+#: templates/feeds/course-details.html:16
+msgid "Στόχοι"
+msgstr "Objectives"
+
+#: templates/feeds/course-details.html:18
+msgid "Βιβλιογραφία"
+msgstr "Bibliography"
+
+#: templates/secry/secry.html:67
+msgid ""
+"Επιλέξτε κάτι από τη 'Δενδρική Προβολή', στα αριστερά, για να δείτε "
+"περισσότερες λεπτομέρειες"
+msgstr "Select something of the 'Tree View', in the left, to see more details"
+
+#: templates/secry/secry.html:72
+msgid "Τμήματα"
+msgstr "Departments"
+
+#: templates/secry/secry.html:78
+msgid "Μαθήματα"
+msgstr "Courses"
+
+#: templates/secry/secry.html:85
+msgid "Μαθήματα και κατευθύνσεις"
+msgstr "Courses and directions"
+
+#: templates/secry/secry.html:92
+msgid "Τάξεις"
+msgstr "Classes"
+
+#: templates/secry/secry.html:93
+msgid "Εξετάσεις"
+msgstr "Exams"
+
+#: templates/secry/secry.html:102
+msgid "Προσωπικό"
+msgstr "Staff"
+
+#: templates/secry/secry.html:121 templates/secry/secry.html.py:137
+#: templates/secry/secry.html:151 templates/secry/secry.html.py:162
+msgid "Ενεργό"
+msgstr "Active"
+
+#: templates/secry/secry.html:124
+msgid "Τίτλος 2"
+msgstr "Title 2"
+
+#: templates/secry/secry.html:126
+msgid "Γνωστ.Αντικείμενο"
+msgstr "Cognitive object"
+
+#: templates/secry/secry.html:127
+msgid "Κλίμ.Βαθμολογίας"
+msgstr "Scale rating"
+
+#: templates/secry/secry.html:128
+msgid "Περ.Διδασκ"
+msgstr "Teaching period"
+
+#: templates/secry/secry.html:129
+msgid "Υποτροφίες"
+msgstr "Scholarships"
+
+#: templates/secry/secry.html:130 templates/secry/secry.html.py:170
+msgid "Ώρες"
+msgstr "Hours"
+
+#: templates/secry/secry.html:131
+msgid "Δ.Μ."
+msgstr "T.U."
+
+#: templates/secry/secry.html:132
+msgid "Αντικατάστ.από"
+msgstr "Replaced by"
+
+#: templates/secry/secry.html:133
+msgid "Διδάσκεται"
+msgstr "Taught"
+
+#: templates/secry/secry.html:134 templates/secry/secry.html.py:148
+#: templates/secry/secry.html:173 templates/secry/secry.html.py:185
+#: templates/secry/secry.html:239 templates/secry/secry.html.py:268
+#: templates/secry/secry.html:301 templates/secry/secry.html.py:330
+#: templates/secry/secry.html:342
+msgid "Επεξεργασία"
+msgstr "Edit"
+
+#: templates/secry/secry.html:138
+msgid "Κωδικός Τάξης"
+msgstr "Class code"
+
+#: templates/secry/secry.html:139
+msgid "Κωδ. Μαθήματος"
+msgstr "Course code"
+
+#: templates/secry/secry.html:140 templates/secry/secry.html.py:155
+msgid "Ακ. Έτος"
+msgstr "Academic Year"
+
+#: templates/secry/secry.html:141
+msgid "Περίοδος"
+msgstr "Period"
+
+#: templates/secry/secry.html:142
+msgid "Τίτλος Τάξης"
+msgstr "Class title"
+
+#: templates/secry/secry.html:143
+msgid "Ώρες την εβδομάδα"
+msgstr "Hours a week"
+
+#: templates/secry/secry.html:144
+msgid "Διδάσκοντες"
+msgstr "Professors"
+
+#: templates/secry/secry.html:145
+msgid "Κατάσταση"
+msgstr "Status"
+
+#: templates/secry/secry.html:146
+msgid "Σ.Φ."
+msgstr "Total students"
+
+#: templates/secry/secry.html:147
+msgid "Μεγ. Αριθμός"
+msgstr "Big number"
+
+#: templates/secry/secry.html:152 templates/secry/secry.html.py:163
+msgid "Κωδικός Μαθ"
+msgstr "Code class"
+
+#: templates/secry/secry.html:156
+msgid "Εξ Περ"
+msgstr "Exam period"
+
+#: templates/secry/secry.html:157
+msgid "Επανάληψη"
+msgstr "Repeat"
+
+#: templates/secry/secry.html:158 templates/users/messages.html:59
+msgid "Ημερομηνία"
+msgstr "Date"
+
+#: templates/secry/secry.html:159 templates/secry/secry.html.py:171
+msgid "Υπεύθυνος Καθηγητής"
+msgstr "Responsible Professor"
+
+#: templates/secry/secry.html:165
+msgid "Γνωστ. Αντικείμενο"
+msgstr "Cognitive object"
+
+#: templates/secry/secry.html:166
+msgid "Τύπος Περ"
+msgstr "Selection type"
+
+#: templates/secry/secry.html:172
+msgid "Ισχύει Από"
+msgstr "Effect from"
+
+#: templates/secry/secry.html:177
+msgid "Επώνυμο"
+msgstr "Surname"
+
+#: templates/secry/secry.html:179
+msgid "Πατρώνυμο"
+msgstr "Father's name"
+
+#: templates/secry/secry.html:180
+msgid "Φύλο"
+msgstr "Sex"
+
+#: templates/secry/secry.html:181
+msgid "Κατάταση"
+msgstr "Status"
+
+#: templates/secry/secry.html:182
+msgid "Ενεργός"
+msgstr "Active"
+
+#: templates/secry/secry.html:183
+msgid "Ημ/νία πρόσληψης"
+msgstr "Date of hire"
+
+#: templates/secry/secry.html:358
+msgid ""
+"Επιλέγοντας κάτι από τα παρακάτω μπορείτε να ενημερώσετε με πληροφορίες τον "
+"Διαγόρα"
+msgstr ""
+"Selcting on of the options below you can update the information of Diagoras"
+
+#: templates/secry/secry.html:360
+msgid "Προσθήκη Σχολής"
+msgstr "Add faculty"
+
+#: templates/secry/secry.html:361
+msgid "Προσθήκη Τμήματος"
+msgstr "Add department"
+
+#: templates/secry/secry.html:362
+msgid "Προσθήκη Προγράμματος Σπουδών"
+msgstr "Add curriculum"
+
+#: templates/secry/secry.html:363
+msgid "Προσθήκη Κατεύθυνσης"
+msgstr "Add direction"
+
+#: templates/secry/secry.html:364
+msgid "Προσθήκη Μαθήματος"
+msgstr "Add course"
+
+#: templates/secry/secry.html:365
+msgid "Προσθήκη Βιβλιογραφίας"
+msgstr "Add bibliography"
+
+#: templates/secry/secry.html:366
+msgid "Προσθήκη Καθηγητή"
+msgstr "Add professor"
+
+#: templates/secry/secry.html:367
+msgid "Προσθήκη Τάξης"
+msgstr "Add class"
+
+#: templates/secry/secry.html:368
+msgid "Προσθήκη Εξεταστικής περιόδου"
+msgstr "Add exam period"
+
+#: templates/secry/secry_add.html:3
+msgid "Προσθήκη Δεδομένων"
+msgstr "Add data"
+
+#: templates/secry/secry_add.html:114
+msgid "Προσθήκη νέας Σχολής"
+msgstr "Add new faculty"
+
+#: templates/secry/secry_add.html:116
+msgid "Προσθήκη νέου Τμήματος"
+msgstr "Add new department"
+
+#: templates/secry/secry_add.html:118
+msgid "Προσθήκη νέας Κατεύθυνσης"
+msgstr "Add new direction"
+
+#: templates/secry/secry_add.html:121
+#, fuzzy
+msgid "Επεξεργασία Προγράμματος Σπουδών"
+msgstr "Edit curriculum"
+
+#: templates/secry/secry_add.html:123
+#, fuzzy
+msgid "Προσθήκη νέου Προγράμματος Σπουδών"
+msgstr "Add new curriculum"
+
+#: templates/secry/secry_add.html:126
+msgid "Προσθήκη νέου Μαθήματος"
+msgstr "Add new course"
+
+#: templates/secry/secry_add.html:128
+msgid "Προσθήκη νέου Βιβλίου σε Βιβλιογραφία"
+msgstr "Add new book in bibliography"
+
+#: templates/secry/secry_add.html:130
+msgid "Προσθήκη νέου Καθηγητή"
+msgstr "Add new professor"
+
+#: templates/secry/secry_add.html:132
+msgid "Προσθήκη νέας Τάξης"
+msgstr "Add new class"
+
+#: templates/secry/secry_add.html:134
+msgid "Προσθήκη νέας Εξεταστικής Περιόδου"
+msgstr "Add new exam period"
+
+#: templates/secry/secry_add.html:141
+msgid "Συμπλρώστε τα στοιχεία παρακάτω"
+msgstr "Fill the details below"
+
+#: templates/secry/secry_add.html:142
+msgid "Παρακαλώ, να συμπληρώσετε τα πεδία για όλες τις γλώσσες"
+msgstr "Please, fill in the fields for all languages"
+
+#: templates/users/forward.html:3
+msgid "Προώθηση μηνυμάτων"
+msgstr "Forward messages"
+
+#: templates/users/forward.html:68
+msgid "Επεξεργασία προώθησης"
+msgstr "forward process"
+
+#: templates/users/forward.html:70
+msgid "Προσθήκη νέας προώθησης"
+msgstr "Add new forward"
+
+#: templates/users/forward.html:72 templates/users/manage.html:52
+msgid "Διαχείρηση προωθήσεων μηνυμάτων"
+msgstr "Management forward messages"
+
+#: templates/users/forward.html:83
+msgid "Επεξεργαστείτε τα στοιχεία της Προώθησης"
+msgstr "Edit the forward"
+
+#: templates/users/forward.html:89 templates/users/forward.html.py:115
+#: templates/users/forward.html:140
+msgid "Προώθηση Σε"
+msgstr "Forward to"
+
+#: templates/users/forward.html:89 templates/users/forward.html.py:115
+msgid "e-mail προώθησης"
+msgstr "e-mail forward"
+
+#: templates/users/forward.html:90 templates/users/forward.html.py:116
+#: templates/users/forward.html:140
+msgid "Προώθηση Από"
+msgstr "Forwrd from"
+
+#: templates/users/forward.html:90 templates/users/forward.html.py:116
+msgid "e-mail αποστολέα"
+msgstr "e-mail sender"
+
+#: templates/users/forward.html:91 templates/users/forward.html.py:117
+msgid "Κωδικός 'Από'"
+msgstr "Code 'from'"
+
+#: templates/users/forward.html:91 templates/users/forward.html.py:117
+#: templates/users/forward.html:172 templates/users/forward.html.py:184
+msgid "Κωδικός e-mail αποστολέα"
+msgstr "Code e-mail sender"
+
+#: templates/users/forward.html:91 templates/users/forward.html.py:117
+msgid "Εμφάνηση"
+msgstr "Appearance"
+
+#: templates/users/forward.html:92 templates/users/forward.html.py:118
+msgid "π.χ."
+msgstr "e.g."
+
+#: templates/users/forward.html:94 templates/users/forward.html.py:120
+msgid "Προώθηση"
+msgstr "Forward"
+
+#: templates/users/forward.html:104 templates/users/forward.html.py:122
+msgid "Αποθήκευση"
+msgstr "Save"
+
+#: templates/users/forward.html:109
+msgid "Συμπληρώστε τα στοιχεία για την νέα Προώθηση"
+msgstr "Fill the data for the new forward"
+
+#: templates/users/forward.html:127
+msgid ""
+"Οι εγγραφές της παρακάτω λίστας, θα δέχονται με e-mail ενημέρωση για νέα "
+"μηνύματα"
+msgstr ""
+"Registered in the following list, will receive information by e-mail for new "
+"messages"
+
+#: templates/users/forward.html:133
+msgid "Ενεργοποιήστε την προώθηση στα επιλεγμένα στοιχεία της λίστας"
+msgstr "Activate the forward in the selected list items"
+
+#: templates/users/forward.html:133
+msgid "Ενεργοποίηση"
+msgstr "Activation"
+
+#: templates/users/forward.html:134
+msgid "Απενεργοποιήστε την προώθηση στα επιλεγμένα στοιχεία της λίστας"
+msgstr "Deactivate the forward in the selected list items"
+
+#: templates/users/forward.html:134
+msgid "Απενεργοποίηση"
+msgstr "Deactivate"
+
+#: templates/users/forward.html:135
+msgid "Διέγραψε τις επιλεγμένες εγγραφές"
+msgstr "Delete the selcted records"
+
+#: templates/users/forward.html:135 templates/users/messages.html:54
+msgid "Διαγραφή"
+msgstr "Delete"
+
+#: templates/users/forward.html:140
+msgid "Ενεργή"
+msgstr "Active"
+
+#: templates/users/forward.html:144
+msgid "Επεξεργασία των στοιχείων της εγγραφής"
+msgstr "Edit the registration data"
+
+#: templates/users/forward.html:149
+#, fuzzy
+msgid "Προσθήκη"
+msgstr "Add class"
+
+#: templates/users/manage.html:3 templates/users/manage.html.py:21
+#: templates/users/users.html:29
+msgid "Διαχείριση"
+msgstr "Management"
+
+#: templates/users/manage.html:42
+msgid "Διάλεξε κάτι από τα παρακάτω"
+msgstr "Select something for the following"
+
+#: templates/users/manage.html:48
+msgid "Δημιουργία νέου χρήστη"
+msgstr "Create new user"
+
+#: templates/users/manage.html:49
+msgid "Επεξεργασία ενός χρήστη"
+msgstr "Edit new user"
+
+#: templates/users/manage.html:52 templates/users/messages.html:74
+msgid ""
+"Διαχειρηστείτε την λίστα με τις εγγραφές για προώθηση των μηνυμάτων "
+"επικοινωνίας"
+msgstr ""
+"Management the list of records for the forward of communication messages"
+
+#: templates/users/manage.html:53
+msgid "Δείτε την λίστα με τα εισερχόμενα μηνύματα επικοινωνίας"
+msgstr "See the list with the incoming communication messages"
+
+#: templates/users/manage.html:53 templates/users/messages.html:22
+msgid "Κέντρο μηνυμάτων"
+msgstr "Message center"
+
+#: templates/users/messages.html:3
+msgid "Μηνύματα"
+msgstr "Messages"
+
+#: templates/users/messages.html:20
+msgid "Λεπτομέρειες μηνύματος"
+msgstr "Message details"
+
+#: templates/users/messages.html:33
+msgid "Λεπτομέρειες για το μήνυμα από"
+msgstr "Deatails of messages from"
+
+#: templates/users/messages.html:46
+msgid "Πατήστε πάνω σε κάποιο θέμα για να δείτε το μήνυμα του"
+msgstr "Click on a topic to see the message"
+
+#: templates/users/messages.html:52
+msgid "Μαρκάρισμα μηνύματος ως αναγνωσμένο"
+msgstr "Mark message as read"
+
+#: templates/users/messages.html:52
+msgid "Αναγνωσμένο"
+msgstr "Read"
+
+#: templates/users/messages.html:53
+msgid "Μαρκάρισμα μηνύματος ως μη αναγνωσμένο"
+msgstr "Mark message as unread"
+
+#: templates/users/messages.html:53
+msgid "Μη αναγνωσμένο"
+msgstr "Unread"
+
+#: templates/users/messages.html:54
+msgid "Διέγραψε το μήνυμα"
+msgstr "Delete the message"
+
+#: templates/users/messages.html:59
+msgid "Όνομα αποστολέα"
+msgstr "Name of sender"
+
+#: templates/users/messages.html:74
+msgid "Διαχείρηση Προωθήσεων"
+msgstr "Management forward"
+
+#: templates/users/profile.html:3 templates/users/profile.html.py:19
+msgid "Προφίλ χρήστη"
+msgstr "User profile"
+
+#: templates/users/profile.html:26
+msgid "Αυτή τη στιγμή είναι συνδεδεμένος ο χρήστης"
+msgstr "The user in online"
+
+#: templates/users/profile.html:28
+msgid "Μετάβαση στην διαχείριση"
+msgstr "Go to the management"
+
+#: templates/users/users.html:3
+msgid "Χρήστες"
+msgstr "Users"
+
+#: templates/users/users.html:19
+msgid "Επιλογές χρήστη"
+msgstr "User options"
+
+#: templates/users/users.html:26
+msgid "Επέλεξε κάτι από τα παρακάτω"
+msgstr "Select something from below"
+
+#: templates/users/users.html:28
+msgid "Προβολή του προφίλ μου"
+msgstr "View my profile"
+
+#~ msgid "Τομέας"
+#~ msgstr "Sector"
+
+#~ msgid "Profile"
+#~ msgstr "Profile"
