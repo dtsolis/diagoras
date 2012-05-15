@@ -1,4 +1,8 @@
+.DS_Store
+.directory
 *.log
 *.pot
 *.pyc
+*.*~
+Thumbs.db
 local_settings.py
